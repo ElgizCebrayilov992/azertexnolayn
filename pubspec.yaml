@@ -38,6 +38,13 @@ dependencies:
   get: ^4.3.8
   kartal: ^2.1.0
   animate_do: ^2.0.0
+  json_serializable: ^6.0.1
+  json_annotation: ^4.3.0
+  auto_size_text: ^3.0.0
+  auto_size_text_pk: ^3.0.0
+  flutter_timer_countdown: ^1.0.2
+  date_format: ^2.0.4
+  checkbox_grouped: ^1.7.1
  
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:date_format/date_format.dart';
 import '../../../../../core/constants/constants.dart';
 import '../../../../../core/response/responsive_layout.dart';
 import '../../../../../core/timer/timer_controller.dart';
@@ -6,7 +7,6 @@ import '../../inside_document_page/inside_document_page.dart';
 import '../../../../../test/messaj/mesajModel/mesaj_model.dart';
 import 'package:get/get.dart';
 
-import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
@@ -27,7 +27,7 @@ class DocumentWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Card(
           child: Container(
-            margin: EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
             color: AppConstants.compColorWhite,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,9 +35,9 @@ class DocumentWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               children: [
                 sendTime(),
-                SizedBox(width: 10,),
+                const SizedBox(width: 10,),
                 centerInfo(context),
-                Spacer(),
+                const Spacer(),
                 timerOrIcon(_mesaj.timerStatus ?? 0)
               ],
             ),
@@ -53,12 +53,12 @@ class DocumentWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         infoMesajHeader(context),
         infoMesajFrom(context),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         infoMesajTo(context),
@@ -71,7 +71,7 @@ class DocumentWidget extends StatelessWidget {
   Container infoMesajAccept(BuildContext context) {
     return Container(
       padding: context.horizontalPaddingLow,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           border:
               Border(bottom: BorderSide(color: Colors.black54, width: 3.0))),
       child: Row(
@@ -86,7 +86,7 @@ class DocumentWidget extends StatelessWidget {
   Container infoMesajTo(BuildContext context) {
     return Container(
       padding: context.horizontalPaddingLow,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.black54, width: 3.0)),
       ),
       child: Row(
@@ -98,7 +98,7 @@ class DocumentWidget extends StatelessWidget {
           SizedBox(
             width: context.dynamicWidth(0.009),
           ),
-          Container(
+          SizedBox(
             width: ResponsiveLayout.isPhone(context)
                 ? context.dynamicWidth(0.35)
                 : ResponsiveLayout.isTablet(context)
@@ -157,8 +157,8 @@ class DocumentWidget extends StatelessWidget {
   Container infoMesajFrom(BuildContext context) {
     return Container(
       padding: context.horizontalPaddingLow,
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.black54, width: 3.0)),
+      decoration: const BoxDecoration(
+        border: const Border(bottom: const BorderSide(color: Colors.black54, width: 3.0)),
       ),
       child: Row(
         children: [
@@ -174,7 +174,7 @@ class DocumentWidget extends StatelessWidget {
   Container infoMesajHeader(BuildContext context) {
     return Container(
       padding: context.horizontalPaddingLow,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Colors.black54, width: 3.0),
         ),
@@ -197,20 +197,20 @@ class DocumentWidget extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('${formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'), [
+        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'), [
               yy,
               '/',
               mm,
               '/',
               d
-            ])}'),
-        Text('${formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'), [
+            ])),
+        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'), [
               HH,
               ':',
               nn,
               ':',
               ss
-            ])}'),
+            ])),
       ],
     );
   }
@@ -233,12 +233,12 @@ class DocumentWidget extends StatelessWidget {
         },
       );
     } else if (timerStatus == 1) {
-      return Icon(
+      return const Icon(
         Icons.alarm,
         color: Colors.green,
       );
     } else {
-      return Icon(
+      return const Icon(
         Icons.alarm,
         color: Colors.red,
       );

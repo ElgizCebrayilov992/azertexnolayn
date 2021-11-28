@@ -1,6 +1,4 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:aztex_repair/screens/admin/pages/new_discrepancy/companent/customer_card.dart';
-import 'package:aztex_repair/screens/admin/pages/new_discrepancy/new_discrepancy_controller.dart';
 import 'package:flutter/cupertino.dart';
 import '../../global_companent/global_companent.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +7,17 @@ import 'package:date_format/date_format.dart';
 import 'package:kartal/kartal.dart';
 
 import 'companent/custom_text_form_field.dart';
+import 'companent/customer_card.dart';
+import 'new_discrepancy_controller.dart';
 
 // ignore: must_be_immutable
 class NewDiscrepancy extends GetView<NewDiscrepancyController> {
   TextEditingController controllerCompanyName = TextEditingController();
   // ignore: unused_field
-  TextEditingController _textEditingController2 = TextEditingController();
-  var _formKey = GlobalKey<FormState>();
+  final TextEditingController _textEditingController2 = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  NewDiscrepancy({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // print(formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]));
@@ -83,7 +85,7 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Adiyyatı/Raised to',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
@@ -92,7 +94,7 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                                 alignment: Alignment.topLeft,
                                 isDense: true,
                                 borderRadius: BorderRadius.circular(20),
-                                hint: Text('Adiyyatı/Applies to'),
+                                hint: const Text('Adiyyatı/Applies to'),
                                 dropdownColor: Colors.white,
                                 onChanged: (value) =>
                                     controller.setRaised(value),
@@ -157,9 +159,9 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Bölmə / Section',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           GetBuilder<NewDiscrepancyController>(
                             builder: (controller) => DropdownButton(
@@ -193,16 +195,16 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'Sahə / Area',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           GetBuilder<NewDiscrepancyController>(
                             builder: (controller) => DropdownButton(
                                 alignment: Alignment.topLeft,
                                 isDense: true,
                                 borderRadius: BorderRadius.circular(20),
-                                hint: Text('Adiyyatı/Applies to'),
+                                hint: const Text('Adiyyatı/Applies to'),
                                 dropdownColor: Colors.white,
                                 onChanged: (value) =>
                                     controller.setArea(value),
@@ -234,11 +236,11 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
         children: [
           CustomerCard(
               title: 'Tarix/Date',
-              info: '${formatDate(
+              info: formatDate(
                 DateTime.now(),
                 [dd, '.', mm, '.', yyyy],
-              )}'),
-          CustomerCard(title: 'Aşkralayan/Initiator', info: 'Elgiz Cebrayilov'),
+              )),
+          const CustomerCard(title: 'Aşkralayan/Initiator', info: 'Elgiz Cebrayilov'),
         ],
       ),
     );
