@@ -1,0 +1,90 @@
+class MyImage {
+  final String path;
+
+  MyImage({required this.path});
+}
+
+class ImageList {
+  static List<MyImage> imageList() {
+    return [
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+      MyImage(
+          path:
+              'https://lh5.googleusercontent.com/proxy/Ao4PmzGgM4o4DFjhSgPGZzYVQc0DgrpVDSvLihXV3Hl9ZhTfsDs51vmQLdsTYkGKf7DT7csuS-QesdqSLY1t82mWMp9QBf5c2F9UxBAWVmkHZ0T4nP04mBWwEo3O8YU=w1200-h630-p-k-no-nu'),
+      MyImage(
+          path:
+              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOZRgqskqSCwA3bCfleUSSuQdZV377Rdhj9sxc9t2vlkobjHfIgDJXVQ1lay4Yol2IhUk&usqp=CAU'),
+    ];
+  }
+}
