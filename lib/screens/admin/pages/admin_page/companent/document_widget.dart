@@ -1,6 +1,7 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import '../../../../../core/constants/constants_color.dart';
 import 'package:date_format/date_format.dart';
-import '../../../../../core/constants/constants.dart';
+import '../../../../../core/constants/constants_text.dart';
 import '../../../../../core/response/responsive_layout.dart';
 import '../../../../../core/timer/timer_controller.dart';
 import '../../inside_document_page/inside_document_page.dart';
@@ -28,7 +29,7 @@ class DocumentWidget extends StatelessWidget {
         child: Card(
           child: Container(
             margin: const EdgeInsets.all(8),
-            color: AppConstants.compColorWhite,
+            color: AppConstantsColor.compColorWhite,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -76,7 +77,7 @@ class DocumentWidget extends StatelessWidget {
               Border(bottom: BorderSide(color: Colors.black54, width: 3.0))),
       child: Row(
         children: [
-          Text(AppConstants.mesajAccept),
+          const Text(AppConstantsText.mesajAccept),
           Text(_mesaj.qebulEtdi ?? "Gözləyir..")
         ],
       ),
@@ -92,8 +93,8 @@ class DocumentWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            AppConstants.mesajTo,
+          const Text(
+            AppConstantsText.mesajTo,
           ),
           SizedBox(
             width: context.dynamicWidth(0.009),
@@ -162,7 +163,7 @@ class DocumentWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(AppConstants.mesajFrom),
+          const Text(AppConstantsText.mesajFrom),
           Text(
             _mesaj.gonderen ?? "",
           ),
@@ -181,8 +182,8 @@ class DocumentWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(
-            AppConstants.mesajHeader,
+         const Text(
+            AppConstantsText.mesajHeader,
           ),
           Text(
             _mesaj.basliq ?? "",

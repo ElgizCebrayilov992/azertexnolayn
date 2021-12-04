@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/constants/constants.dart';
+import '../../../../../../core/constants/constants_text.dart';
 import '../customer_card_widget/customer_card_widget.dart';
 import '../two_string_with_row.dart';
 
@@ -16,7 +16,7 @@ class Applies extends StatelessWidget {
           Text(''),
           Text(''),
           TwoStringWithRow(
-            title: AppConstants.pageApplis,
+            title: AppConstantsText.pageApplis,
             info: applies,
             titleStyle: TextStyle(fontWeight: FontWeight.bold)
           ),

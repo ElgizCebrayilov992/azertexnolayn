@@ -1,53 +1,40 @@
-import 'package:flutter/material.dart';
 
-class AppConstants {
-  //Login Page
-  //login page color
-  static final Color compColorWhite = Colors.white;
-  static final Color compColorGtrey = Colors.grey;
-  static const Color compColorBlue = Color(0xff143C66);
+
+class AppConstantsText {
   //login page text
-  static final String clickButton = 'Daxil Ol';
-  static final String hintTextMail = 'example: example@example.com';
-  static final String hintTextPass = 'example: Example123@';
-  static final String validEmail = 'Zəhmət olmasa maili düzgün formatda yazın';
-  static final String validPass = 'Zəhmət olmasa şifrəni düzgün formatda yazın';
+  static const String clickButton = 'Daxil Ol';
+  static const String hintTextMail = 'example: example@example.com';
+  static const String hintTextPass = 'example: Example123@';
+  static const String validEmail = 'Zəhmət olmasa maili düzgün formatda yazın';
+  static const String validPass = 'Zəhmət olmasa şifrəni düzgün formatda yazın';
   //login page image
-  static final String loginLogoImgPath = 'assets/logo/logo.svg';
-  static final String loginBackroundImgPath = 'assets/image/backround.gif';
-
-  //Admin Page
-  // color
-  //login page color
-  static final Color adminColorRed = Color(0XFFf44336);
-  static final Color adminColorOrange = Color(0XFFec8d2f);
-  static const Color purpleLight = Color(0XFF1e224c);
-  static const Color purpleDark = Color(0XFF0d193e);
+  static const String loginLogoImgPath = 'assets/logo/logo.svg';
+  static const String loginBackroundImgPath = 'assets/image/backround.gif';
 
   //DrawerPage
   //String
-  static final String drawerAllMessage = 'Bütün sənədlər';
-  static final String drawerWaitMessage = 'Gözləyən'; //musteri teref
-  static final String drawerAcceptUserMessage = 'Qəbul edilən'; //admin teref
-  static final String drawerReturnMessage =
+  static const String drawerAllMessage = 'Bütün sənədlər';
+  static const String drawerWaitMessage = 'Gözləyən'; //musteri teref
+  static const String drawerAcceptUserMessage = 'Qəbul edilən'; //admin teref
+  static const String drawerReturnMessage =
       'Geri dönüş'; // sened musteri ucun duz deyilse
-  static final String drawerAcceptAdminMessage =
+  static const String drawerAcceptAdminMessage =
       'Təsdiqlənən'; //admin teref burda saygac gedecek
-  static final String drawerCancelMessage = 'Ləvğ'; // admin
-  static final String drawerAcceptWaitMessage = 'Təsdiq gözləyən'; // admin
+  static const String drawerCancelMessage = 'Ləvğ'; // admin
+  static const String drawerAcceptWaitMessage = 'Təsdiq gözləyən'; // admin
 
   //Mesaj Widget
-  static final String mesajHeader = 'Başlıq: ';
-  static final String mesajFrom = 'Göndərən: ';
-  static final String mesajTo = 'Kimlər: ';
-  static final String mesajAccept = 'Qəbul etdi: ';
+  static const String mesajHeader = 'Başlıq: ';
+  static const String mesajFrom = 'Göndərən: ';
+  static const String mesajTo = 'Kimlər: ';
+  static const String mesajAccept = 'Qəbul etdi: ';
 
   //Mesaj info
-  static final String mesajInfoHeader =
+  static const String mesajInfoHeader =
       'UYĞUNSUZLUQ HESABATI NONCONFORMITY REPORT';
 
   //example
-  static final String example = """
+  static const String example = """
   The standard Lorem Ipsum passage, used since the 1500s
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
 
@@ -64,19 +51,22 @@ Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
 "On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those who fail in their duty through weakness of will, which is the same as saying through shrinking from toil and pain. These cases are perfectly simple and easy to distinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted. The wise man therefore always holds in these matters to this principle of selection: he rejects pleasures to secure other greater pleasures, or else he endures pains to avoid worse pains."
   
   """;
-  static final String example2 = '''
+  static const String example2 = '''
   What is Lorem Ipsum?
 Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
   ''';
-  static final String exampleAdamlar='Vefedar Babayev , Elgiz Cebrayilov,Turxan Ibrahimov,Flankes Flankesov'; 
+  static const String exampleAdamlar =
+      'Vefedar Babayev , Elgiz Cebrayilov,Turxan Ibrahimov,Flankes Flankesov';
 
 //page info
-static const String pageDate = 'Tarix / Date:';
-static const String pageArea = 'Sahə / Area:';
-static const String pageInitiator = 'Aşkarlayan / Initiator:';
-static const String pageRaised = 'Aidiyyatı / Raised to:';
-static const String pageWhom = 'Ad / Name: ';
-static const String pageApplis = 'Tətbiq olunacaq / Applies to: ';
-
-
+  static const String pageDate = 'Tarix / Date:';
+  static const String pageArea = 'Sahə / Area:';
+  static const String pageInitiator = 'Aşkarlayan / Initiator:';
+  static const String pageRaised = 'Aidiyyatı / Raised to:';
+  static const String pageWhom = 'Ad / Name: ';
+  static const String pageApplis = 'Tətbiq olunacaq / Applies to: ';
+  static const String descriptionOfFinding = 'TAPINTININ AÇIQLAMASI';
+  static const String rootCauseAnalysis = 'KÖK SƏBƏB ANALİZİ';
+  static const String standardClause = 'Standart və Maddə №';
+  static const String standardClauseTitle = 'Açıqlama';
 }

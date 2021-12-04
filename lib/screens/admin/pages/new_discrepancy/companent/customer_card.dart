@@ -14,7 +14,7 @@ class CustomerCard extends StatelessWidget {
           children: [
             Text(
               title!,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               width: 5.0,

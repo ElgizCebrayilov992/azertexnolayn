@@ -1,4 +1,4 @@
-import '../../../../../../core/constants/constants.dart';
+import '../../../../../../core/constants/constants_text.dart';
 import '../customer_card_widget/customer_card_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -19,17 +19,17 @@ class HeaderTimeAndName extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           TwoStringWithRow(
-              title: AppConstants.pageDate,
+              title: AppConstantsText.pageDate,
               info: time,
-              titleStyle: TextStyle(fontWeight: FontWeight.bold)),
+              titleStyle: const TextStyle(fontWeight: FontWeight.bold)),
           TwoStringWithRow(
-              title: AppConstants.pageArea,
+              title: AppConstantsText.pageArea,
               info: bolme,
-              titleStyle: TextStyle(fontWeight: FontWeight.bold)),
+              titleStyle: const TextStyle(fontWeight: FontWeight.bold)),
           TwoStringWithRow(
-              title: AppConstants.pageInitiator,
+              title: AppConstantsText.pageInitiator,
               info: name,
-              titleStyle: TextStyle(fontWeight: FontWeight.bold)),
+              titleStyle: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
     );

@@ -1,4 +1,4 @@
-import '../../../../../../core/constants/constants.dart';
+import '../../../../../../core/constants/constants_text.dart';
 import '../customer_card_widget/customer_card_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -16,17 +16,17 @@ class HeaderWhom extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(''),
+          const Text(''),
           TwoStringWithRow(
-              title: AppConstants.pageRaised,
+              title: AppConstantsText.pageRaised,
               info: raised,
-              titleStyle: TextStyle(fontWeight: FontWeight.bold)),
+              titleStyle: const TextStyle(fontWeight: FontWeight.bold)),
           //todo bura qebul eden dusecek eger yoxdusa gozleyir yazacaq
           TwoStringWithRow(
-              title: AppConstants.pageWhom,
+              title: AppConstantsText.pageWhom,
               info: name!,
-              titleStyle: TextStyle(fontWeight: FontWeight.bold)),
-          Text(''),
+              titleStyle: const TextStyle(fontWeight: FontWeight.bold)),
+          const Text(''),
         ],
       ),
     );

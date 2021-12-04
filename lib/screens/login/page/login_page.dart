@@ -1,5 +1,5 @@
+import '../../../core/constants/constants_color.dart';
 
-import '../../../core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/response/responsive_layout.dart';
@@ -10,9 +10,9 @@ import '../login_responce/web_tablet_comp_screen.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Scaffold(
-        backgroundColor: AppConstants.compColorWhite,
+        backgroundColor: AppConstantsColor.compColorWhite,
         body: ResponsiveLayout(
           tiny: PhoneAndTinyScreen(),
           phone: PhoneAndTinyScreen(),

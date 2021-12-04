@@ -1,13 +1,24 @@
 import 'package:get/get.dart';
 
 class NewDiscrepancyController extends GetxController {
-  var selectRaised = 'Daxili şöbə';
-  List listRaised = [
-    'Daxili şöbə',
-    'Subpodratçı',
-    'Podratçı',
-    'Tədarükçü'
+//Radio Group (TAPINTININ AÇIQLAMASI / DESCRIPTION OF FINDING)
+  late String selectFinding;
+  final List<String> findings = [
+    'UYĞUNSUZLUQ',
+    'POTENSİYAL UYĞ./ RİSK',
+    'MÜŞAHİDƏ',
+    'ÇOX ƏHƏMİYYƏTLİ',
+    'AZ ƏHƏMİYYƏTLİ',
   ];
+  String select = 'UYĞUNSUZLUQ';
+  void onClickRadioButton(value) {
+   
+    select = value;
+    update();
+  }
+
+  var selectRaised = 'Daxili şöbə';
+  List listRaised = ['Daxili şöbə', 'Subpodratçı', 'Podratçı', 'Tədarükçü'];
   void setRaised(var value) {
     selectRaised = value;
     update();
@@ -28,14 +39,8 @@ class NewDiscrepancyController extends GetxController {
     update();
   }
 
-
   var selectSection = 'KEYFIYYƏT';
-  List listSection = [
-    'KEYFIYYƏT',
-    'SİPRAL',
-    'PORTAL',
-    'KAPLAMA/\nQUMALAMA'
-  ];
+  List listSection = ['KEYFIYYƏT', 'SİPRAL', 'PORTAL', 'KAPLAMA/\nQUMALAMA'];
 
   var selectArea = '1 ULTRASON';
   List listArea = [
@@ -55,8 +60,7 @@ class NewDiscrepancyController extends GetxController {
   void setSection(var value) {
     listArea.clear();
     selectSection = value;
-    if (value == 'KEYFIYYƏT') 
-    {
+    if (value == 'KEYFIYYƏT') {
       selectArea = '1 ULTRASON';
       listArea = [
         '1 ULTRASON',

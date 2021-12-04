@@ -1,3 +1,5 @@
+import '../../../core/constants/constants_color.dart';
+
 import '../companent/clipper_widget.dart';
 import '../companent/login_page_form.dart';
 import '../companent/login_page_svg.dart';
@@ -5,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:kartal/kartal.dart';
 
-import '../../../core/constants/constants.dart';
+import '../../../core/constants/constants_text.dart';
 class SmallTabletScreen extends StatelessWidget {
   const SmallTabletScreen({
     Key? key,
@@ -14,7 +16,7 @@ class SmallTabletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppConstants.compColorWhite,
+      color: AppConstantsColor.compColorWhite,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +27,7 @@ class SmallTabletScreen extends StatelessWidget {
               clipper: MyClipper(),
               child: Container(
                 alignment: Alignment.topCenter,
-                color: AppConstants.compColorBlue,
+                color: AppConstantsColor.compColorBlue,
                 child: LoginPageSvg(
                   height: context.dynamicHeight(0.3),
                 ),
@@ -39,8 +41,8 @@ class SmallTabletScreen extends StatelessWidget {
                   horizontal: context.dynamicHeight(0.1)),
               child: Container(
                 alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: AppConstants.compColorBlue,
+                decoration: const BoxDecoration(
+                  color: AppConstantsColor.compColorBlue,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                       bottomRight: Radius.circular(40)),

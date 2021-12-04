@@ -1,6 +1,7 @@
-import '../../../../../../test/image_list/image_list.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
+
+import '../../../../../../test/image_list/image_list.dart';
 class CustomerImage extends StatelessWidget {
   const CustomerImage({Key? key, this.e}) : super(key: key);
  final MyImage? e;

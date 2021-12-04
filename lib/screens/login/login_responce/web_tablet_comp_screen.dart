@@ -1,10 +1,11 @@
 import 'package:animate_do/animate_do.dart';
+import '../../../core/constants/constants_color.dart';
 import '../companent/login_page_form.dart';
 import '../companent/login_page_svg.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kartal/kartal.dart';
-import '../../../core/constants/constants.dart';
+import '../../../core/constants/constants_text.dart';
 
 class WebTabletCompScreen extends StatelessWidget {
   const WebTabletCompScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class WebTabletCompScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppConstants.compColorWhite,
+      color: AppConstantsColor.compColorWhite,
       child: Row(
         //crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -25,7 +26,7 @@ class WebTabletCompScreen extends StatelessWidget {
                   height:context.dynamicHeight(0.3),
                 ),
               ),
-              color: AppConstants.compColorBlue,
+              color: AppConstantsColor.compColorBlue,
             ),
           ),
           Expanded(
@@ -38,7 +39,7 @@ class WebTabletCompScreen extends StatelessWidget {
               ),
               child: Container(
                 alignment: Alignment.center,
-                color: AppConstants.compColorBlue,
+                color: AppConstantsColor.compColorBlue,
                 child: LoginPageForm(
                   topPadding: context.dynamicHeight(0.04),
                   leftPadding: context.dynamicWidth(0.04),

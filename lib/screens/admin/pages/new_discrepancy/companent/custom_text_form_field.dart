@@ -1,60 +1,57 @@
+import '../../../../../core/constants/constants_color.dart';
+import '../../../../../core/constants/constants_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomertextFormField extends StatelessWidget {
   final String title;
-  final bool isPassword;
+
   final TextInputType inputType;
   final AutovalidateMode autovalidateMode;
   final FormFieldValidator validator;
   final TextEditingController controller;
-  final Widget? icon;
 
-  const CustomertextFormField(
-      {Key? key,
-      required this.title,
-      this.isPassword = false,
-      required this.inputType,
-      required this.autovalidateMode,
-      required this.validator,
-      required this.controller,
-      this.icon})
-      : super(key: key);
+  const CustomertextFormField({
+    Key? key,
+    required this.title,
+    required this.inputType,
+    required this.autovalidateMode,
+    required this.validator,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            margin: EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  maxLines: 10,
-                  minLines: 1,
-                    textInputAction: TextInputAction.newline,
-                    validator: validator,
-                    controller: controller,
-                    autovalidateMode: autovalidateMode,
-                    keyboardType: TextInputType.multiline,
-                    obscureText: isPassword,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        fillColor: Color(0xfff3f3f4),
-                        filled: true))
-              ],
+    return Card(
+      color: AppConstantsColor.purpleDark,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 5.0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: AppConstantsColor.compColorWhite),
             ),
           ),
-        ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+              maxLines: 1000,
+              minLines: 1,
+              textInputAction: TextInputAction.newline,
+              validator: validator,
+              controller: controller,
+              autovalidateMode: autovalidateMode,
+              keyboardType: TextInputType.multiline,
+              decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  fillColor: AppConstantsColor.compColorWhite,
+                  filled: true))
+        ],
       ),
     );
   }

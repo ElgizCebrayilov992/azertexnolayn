@@ -1,5 +1,7 @@
 
-import '../../../../../../core/constants/constants.dart';
+import '../../../../../../core/constants/constants_color.dart';
+
+import '../../../../../../core/constants/constants_text.dart';
 import '../../../../../../core/response/responsive_layout.dart';
 import '../document_builder/document_builder_controller.dart';
 import '../document_builder/document_builder_widget.dart';
@@ -26,20 +28,20 @@ class Task {
 
 List<ButtonsInfo> _buttonNames = [
   ButtonsInfo(
-      title: AppConstants.drawerAllMessage, icon: Icons.email), //butun sened
+      title: AppConstantsText.drawerAllMessage, icon: Icons.email), //butun sened
   //oxunmayan
   ButtonsInfo(
-      title: AppConstants.drawerWaitMessage,
+      title: AppConstantsText.drawerWaitMessage,
       icon: Icons.hourglass_bottom), //gozluyen
   ButtonsInfo(
-      title: AppConstants.drawerAcceptUserMessage, icon: Icons.mark_email_read),
+      title: AppConstantsText.drawerAcceptUserMessage, icon: Icons.mark_email_read),
   ButtonsInfo(
-      title: AppConstants.drawerAcceptWaitMessage,
+      title: AppConstantsText.drawerAcceptWaitMessage,
       icon: Icons.gavel_outlined), //tesdiqleyen
-  ButtonsInfo(title: AppConstants.drawerReturnMessage, icon: Icons.reply),
-  ButtonsInfo(title: AppConstants.drawerAcceptAdminMessage, icon: Icons.check),
+  ButtonsInfo(title: AppConstantsText.drawerReturnMessage, icon: Icons.reply),
+  ButtonsInfo(title: AppConstantsText.drawerAcceptAdminMessage, icon: Icons.check),
   ButtonsInfo(
-      title: AppConstants.drawerCancelMessage,
+      title: AppConstantsText.drawerCancelMessage,
       icon: Icons.speaker_notes_off), //legv
   //geri donus
 ];
@@ -56,9 +58,9 @@ class DrawerPage extends GetView<DrawerWidgetController>{
           builder: (controller) => Column(
             children: [
               ListTile(
-                title: Text(
+                title: const Text(
                   "Menu",
-                  style: TextStyle(
+                  style:  TextStyle(
                     color: Colors.white,
                   ),
                 ),
@@ -68,7 +70,7 @@ class DrawerPage extends GetView<DrawerWidgetController>{
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        icon: Icon(Icons.close, color: Colors.white),
+                        icon: const Icon(Icons.close, color: Colors.white),
                       ):null
                     : null,
               ),
@@ -82,8 +84,8 @@ class DrawerPage extends GetView<DrawerWidgetController>{
                               borderRadius: BorderRadius.circular(20),
                               gradient: LinearGradient(
                                 colors: [
-                                  AppConstants.adminColorRed.withOpacity(0.9),
-                                  AppConstants.adminColorOrange
+                                  AppConstantsColor.adminColorRed.withOpacity(0.9),
+                                  AppConstantsColor.adminColorOrange
                                       .withOpacity(0.9),
                                 ],
                               ),
@@ -93,7 +95,7 @@ class DrawerPage extends GetView<DrawerWidgetController>{
                         //TODO BURDA MESAJ SAYI OLACAQ
                         title: Text(
                           _buttonNames[index].title,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
@@ -115,7 +117,7 @@ class DrawerPage extends GetView<DrawerWidgetController>{
                         ),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       color: Colors.white,
                       thickness: 0.1,
                     ),

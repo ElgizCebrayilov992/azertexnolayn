@@ -1,5 +1,7 @@
 
-import '../../../../core/constants/constants.dart';
+import '../../../../core/constants/constants_color.dart';
+
+import '../../../../core/constants/constants_text.dart';
 import '../../../../core/response/responsive_layout.dart';
 import '../../global_companent/global_companent.dart';
 import '../admin_page/companent/app_bar_widget.dart';
@@ -35,15 +37,15 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
           child: Column(
             children: [
               oneExpansionTileForComputer(context),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               twoExpansionTileForComputer(context),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               threeExpansionTileForComputer(),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               fourExpansionTileForComputer(a, context)
@@ -56,9 +58,9 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
 
   Container fourExpansionTileForComputer(int a, BuildContext context) {
     return Container(
-      color: AppConstants.compColorWhite,
+      color: AppConstantsColor.compColorWhite,
       child: ExpansionTile(
-        title: Text(
+        title: const Text(
             'DÜZƏLTMƏ / DÜZƏLDİCİ TƏDBİR / CORRECTION / CORRECTIVE  ACTION'),
         children: [
           SizedBox(
@@ -86,16 +88,16 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
               ],
             ),
           ),
-          Divider(),
-          TwoStringWithRowAndExpanded(
+          const Divider(),
+          const TwoStringWithRowAndExpanded(
               title:
                   '(ƏGƏR KÖK SƏBƏB ANALİZİ TƏLƏB OLUNURSA / IF RCA REQUIRED)',
-              info: AppConstants.example2),
+              info: AppConstantsText.example2),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TwoStringWithRowAndExpanded(
                 title: 'DT Qəbul olundu\nCA Accepted:',
-                info: a == 1 ? 'Yes' : AppConstants.example2),
+                info: a == 1 ? 'Yes' : AppConstantsText.example2),
           ),
           //'DT Qəbul olundu\nCA Accepted:'
         ],
@@ -105,8 +107,8 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
 
   Container threeExpansionTileForComputer() {
     return Container(
-      color: AppConstants.compColorWhite,
-      child: ExpansionTile(
+      color: AppConstantsColor.compColorWhite,
+      child: const ExpansionTile(
         title: Text('KÖK SƏBƏB ANALİZİ / ROOT CAUSE ANALYSIS (RCA)'),
         children: [
           TwoStringWithRowAndExpanded(
@@ -116,12 +118,12 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
               info: 'AVADANLIQ XƏTASI / EQUIPMENT FAILURE'),
           Divider(),
           TwoStringWithRowAndExpanded(
-              title: 'digər / other:', info: AppConstants.example2),
+              title: 'digər / other:', info: AppConstantsText.example2),
           Divider(),
           TwoStringWithRowAndExpanded(
               title:
                   'Kök səbəb analiz komanda üzvləri\nRoot Cause Analyse Team members:',
-              info: AppConstants.exampleAdamlar),
+              info: AppConstantsText.exampleAdamlar),
         ],
       ),
     );
@@ -129,24 +131,24 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
 
   Container twoExpansionTileForComputer(BuildContext context) {
     return Container(
-      color: AppConstants.compColorWhite,
+      color: AppConstantsColor.compColorWhite,
       child: ExpansionTile(
-        title: Text('TAPINTININ AÇIQLAMASI / DESCRIPTION OF FINDING'),
+        title: const Text('TAPINTININ AÇIQLAMASI / DESCRIPTION OF FINDING'),
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TypeOfDiscovery(),
-              Divider(),
-              TwoStringWithRowAndExpanded(
+              const TypeOfDiscovery(),
+              const Divider(),
+              const TwoStringWithRowAndExpanded(
                   title: 'Əlavə açıqlama/Additional disclosure',
-                  info: AppConstants.example),
-              Divider(),
-              TwoStringWithRowAndExpanded(
+                  info: AppConstantsText.example),
+              const Divider(),
+              const TwoStringWithRowAndExpanded(
                 title: 'Standart və Maddə № \n Standard & Clause#',
               ),
               Container(
-                padding: EdgeInsets.all(9),
+                padding: const EdgeInsets.all(9),
                 width: double.infinity,
                 child: Wrap(
                   spacing: 20,
@@ -167,13 +169,13 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
 
   Container oneExpansionTileForComputer(BuildContext context) {
     return Container(
-      color: AppConstants.compColorWhite,
+      color: AppConstantsColor.compColorWhite,
       child: ExpansionTile(
         onExpansionChanged: (value) => controller.changeHeaderChek(),
         initiallyExpanded: controller.oneCheck,
         title: GetBuilder<InsideDocumentPageController>(
           builder: (controller) =>
-              controller.oneCheck ? Text('') : HeaderTitle(),
+              controller.oneCheck ? const Text('') : const HeaderTitle(),
         ),
         children: [
           SizedBox(
@@ -181,23 +183,23 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
             child: Wrap(
               alignment: WrapAlignment.spaceBetween,
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                HeaderLeftLogo(),
-                HeaderTitle(),
-                HeaderRightInfo(),
+              children:const [
+                 HeaderLeftLogo(),
+                 HeaderTitle(),
+                 HeaderRightInfo(),
               ],
             ),
           ),
           divider(),
           Row(
             children: [
-              HeaderTimeAndName(
-                bolme: 'Ilk Goz',
+              const HeaderTimeAndName(
+                bolme: "Ilk Goz",
                 name: 'Elgiz',
                 time: '21.05.2021',
               ),
-              HeaderWhom(raised: 'Daxili sobe'),
-              Applies(applies: 'SİSTEM / SYSTEM')
+              const HeaderWhom(raised: 'Daxili sobe'),
+              const Applies(applies: "SİSTEM / SYSTEM")
             ],
           )
         ],
@@ -213,8 +215,8 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
       child: (ResponsiveLayout.isTinyLimit(context) ||
               ResponsiveLayout.isTinyHeightLimit(context))
           ? Container()
-          : AppBarWidget(index: 1),
-      preferredSize: Size(double.infinity, 100),
+          : const AppBarWidget(index: 1),
+      preferredSize: const Size(double.infinity, 100),
     );
   }
 
@@ -235,7 +237,7 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
             title,
             style: titleStyle,
           ),
-          SizedBox(
+          const SizedBox(
             width: 20,
           ),
           Padding(
@@ -245,7 +247,7 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
               style: titleInfo,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
         ],

@@ -7,7 +7,7 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget largeTablet;
   final Widget computer;
 
-  const ResponsiveLayout({
+   const ResponsiveLayout({
     required this.tiny,
     required this.phone,
     required this.tablet,
@@ -15,11 +15,11 @@ class ResponsiveLayout extends StatelessWidget {
     required this.computer,
   });
 
-  static final int tinyHeightLimit = 300;
-  static final int tinyLimit = 320;
-  static final int phoneLimit = 550;
-  static final int tabletLimit = 800;
-  static final int largeTabletLimit = 1100;
+  static const int tinyHeightLimit = 300;
+  static const int tinyLimit = 235;
+  static const int phoneLimit = 550;
+  static const int tabletLimit = 800;
+  static const int largeTabletLimit = 1100;
 
   static bool isTinyHeightLimit(BuildContext context) =>
       MediaQuery.of(context).size.height < tinyHeightLimit;

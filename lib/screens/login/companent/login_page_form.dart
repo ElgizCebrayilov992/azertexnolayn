@@ -1,7 +1,8 @@
+import '../../../core/constants/constants_color.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-import '../../../core/constants/constants.dart';
+import '../../../core/constants/constants_text.dart';
 // ignore: unused_import
 import '../../../validator/string_validator_extension.dart';
 import '../page/login_screen_controller.dart';
@@ -45,10 +46,10 @@ class LoginPageForm extends StatelessWidget {
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.disabled,
                 validator: (value) =>
-                    value!.isValidEmail1 ? null : AppConstants.validEmail,
+                    value!.isValidEmail1 ? null : AppConstantsText.validEmail,
                 controller: controllerMail,
                 keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   filled: true,
@@ -57,10 +58,10 @@ class LoginPageForm extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide.none),
                 ).copyWith(
-                  hintText: AppConstants.hintTextMail,
+                  hintText: AppConstantsText.hintTextMail,
                   prefixIcon: Icon(
                     Icons.mail,
-                    color: AppConstants.compColorGtrey,
+                    color: AppConstantsColor.compColorGtrey,
                   ),
                 ),
               ),
@@ -74,10 +75,10 @@ class LoginPageForm extends StatelessWidget {
               child: TextFormField(
                 autovalidateMode: AutovalidateMode.disabled,
                 validator: (value) =>
-                    value!.isValidPass ? null : AppConstants.validPass,
+                    value!.isValidPass ? null : AppConstantsText.validPass,
                 controller: controllerPass,
                 keyboardType: TextInputType.text,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                   filled: true,
@@ -86,10 +87,10 @@ class LoginPageForm extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide.none),
                 ).copyWith(
-                  hintText: AppConstants.hintTextPass,
+                  hintText: AppConstantsText.hintTextPass,
                   prefixIcon: Icon(
                     Icons.lock,
-                    color: AppConstants.compColorGtrey,
+                    color: AppConstantsColor.compColorGtrey,
                   ),
                 ),
               ),
@@ -109,9 +110,9 @@ class LoginPageForm extends StatelessWidget {
                       formKey: formKey);
                 },
                 child: Text(
-                  AppConstants.clickButton,
+                  AppConstantsText.clickButton,
                   style: context.appTheme.textTheme.headline5!.copyWith(
-                    color: AppConstants.compColorBlue,
+                    color: AppConstantsColor.compColorBlue,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
@@ -119,8 +120,8 @@ class LoginPageForm extends StatelessWidget {
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(
-                            color: AppConstants.compColorBlue,
+                        side: const BorderSide(
+                            color: AppConstantsColor.compColorBlue,
                             style: BorderStyle.solid),
                       ),
                     ),
