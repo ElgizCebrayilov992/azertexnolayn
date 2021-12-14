@@ -1,8 +1,42 @@
+import 'dart:io';
+
+import 'package:azertexnolayn/core/constants/constants_text.dart';
+import 'package:azertexnolayn/test/image_list/image_list.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
+import 'package:flutter/services.dart';
 
 class NewDiscrepancyController extends GetxController {
+  List<MyImage> imageList = [];
+
+  uploadImage() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'jpeg'],
+    );
+
+    if (result != null) {
+       
+      File file = File(result.files.single.path ?? "");
+
+      imageList.add(MyImage(path: file.path));
+   
+    imageCache?.clear();
+     
+    } else {
+      // User canceled the picker
+    }
+    update();
+  }
+  deleteImage(int index){
+    imageList.removeAt(index);
+    update();
+  }
 //Radio Group (TAPINTININ AÇIQLAMASI / DESCRIPTION OF FINDING)
-  late String selectFinding;
+
   final List<String> findings = [
     'UYĞUNSUZLUQ',
     'POTENSİYAL UYĞ./ RİSK',
@@ -11,9 +45,19 @@ class NewDiscrepancyController extends GetxController {
     'AZ ƏHƏMİYYƏTLİ',
   ];
   String select = 'UYĞUNSUZLUQ';
-  void onClickRadioButton(value) {
-   
+  void onClickRadioButtonFinding(value) {
     select = value;
+    update();
+  }
+  //Radio Group (Kok Sebeb Analizi)
+
+  final List<String> findingsRoot = [
+    AppConstantsText.yes,
+    AppConstantsText.no,
+  ];
+  String selectRoot = AppConstantsText.no;
+  void onClickRadioButtonRoot(value) {
+    selectRoot = value;
     update();
   }
 

@@ -20,9 +20,9 @@ class LoginScreenController {
       if (index == 1) {
         Get.off(AdminPage());
       } else if (index == 0) {
-        Get.off(UserPage());
+        Get.off(const UserPage());
       } else {
-        Get.off(LoginPage());
+        Get.off(const LoginPage());
       }
     }
   }

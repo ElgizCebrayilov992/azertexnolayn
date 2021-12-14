@@ -2,8 +2,11 @@
 import 'package:get/get.dart';
 
 import 'core/constants/constants_color.dart';
+import 'screens/admin/pages/admin_page/admin_page.dart';
 import 'screens/admin/pages/new_discrepancy/new_discrepancy.dart';
 import 'package:flutter/material.dart';
+
+import 'screens/login/page/login_page.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -12,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(canvasColor: AppConstantsColor.purpleDark),
       title: 'Material App',
       home: NewDiscrepancy(),

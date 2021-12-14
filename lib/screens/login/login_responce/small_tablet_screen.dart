@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import 'package:kartal/kartal.dart';
 
-import '../../../core/constants/constants_text.dart';
 class SmallTabletScreen extends StatelessWidget {
   const SmallTabletScreen({
     Key? key,

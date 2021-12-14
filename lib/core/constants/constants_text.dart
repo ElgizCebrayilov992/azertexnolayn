@@ -69,4 +69,9 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
   static const String rootCauseAnalysis = 'KÖK SƏBƏB ANALİZİ';
   static const String standardClause = 'Standart və Maddə №';
   static const String standardClauseTitle = 'Açıqlama';
+  static const String yes = 'Bəli';
+  static const String no = 'Xeyir';
+  static const String required = 'Tələb olunur?';
+  static const String imagesDownload = 'Rəsimləri yüklə';
+  static const String imagesButtonText = 'Rəsimi Yüklə';
 }

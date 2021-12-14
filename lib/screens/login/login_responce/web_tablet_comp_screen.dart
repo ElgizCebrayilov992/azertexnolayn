@@ -5,7 +5,6 @@ import '../companent/login_page_svg.dart';
 import 'package:flutter/material.dart';
 
 import 'package:kartal/kartal.dart';
-import '../../../core/constants/constants_text.dart';
 
 class WebTabletCompScreen extends StatelessWidget {
   const WebTabletCompScreen({Key? key}) : super(key: key);

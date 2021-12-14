@@ -133,7 +133,7 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
     return Container(
       color: AppConstantsColor.compColorWhite,
       child: ExpansionTile(
-        title: const Text('TAPINTININ AÇIQLAMASI / DESCRIPTION OF FINDING'),
+        title: const Text(AppConstantsText.descriptionOfFinding),
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

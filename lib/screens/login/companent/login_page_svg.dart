@@ -6,7 +6,7 @@ import 'package:flutter_svg/svg.dart';
 class LoginPageSvg extends StatelessWidget {
   final double? height;
   final Color? color;
-  const LoginPageSvg({this.height, this.color});
+   const LoginPageSvg({Key? key, this.height, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

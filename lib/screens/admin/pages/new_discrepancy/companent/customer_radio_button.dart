@@ -19,10 +19,45 @@ class CustomerRadioButton extends GetView<NewDiscrepancyController> {
           groupValue: controller.select,
           title: Text(controller.findings[index]),
           onChanged: (value) {
-            controller.onClickRadioButton(value);
+            controller.onClickRadioButtonFinding(value);
           },
         ),
       ),
     );
   }
 }
+
+
+
+class CustomerRadioButton1 extends StatelessWidget {
+  const CustomerRadioButton1(
+      {required this.index,
+      Key? key,
+      required this.value,
+      required this.grouoValue,
+      required this.onChanged,required this.width})
+      : super(key: key);
+  final int index;
+  final double width;
+  final String value;
+  final String grouoValue;
+  final ValueChanged onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: width,
+      child: RadioListTile(
+
+        dense: true,
+        activeColor: Colors.green,
+        value: value,
+        groupValue: grouoValue,
+        title: Text(value),
+        onChanged: onChanged,
+      ),
+    );
+  }
+}
+
+

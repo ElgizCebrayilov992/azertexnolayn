@@ -8,6 +8,8 @@ import '../login_responce/small_tablet_screen.dart';
 import '../login_responce/web_tablet_comp_screen.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return const SafeArea(

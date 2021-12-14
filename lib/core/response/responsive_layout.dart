@@ -7,13 +7,13 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget largeTablet;
   final Widget computer;
 
-   const ResponsiveLayout({
+    const ResponsiveLayout({Key? key, 
     required this.tiny,
     required this.phone,
     required this.tablet,
     required this.largeTablet,
     required this.computer,
-  });
+  }) : super(key: key);
 
   static const int tinyHeightLimit = 300;
   static const int tinyLimit = 235;
