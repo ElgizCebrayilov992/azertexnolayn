@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import '../testModelUser/test_user_model.dart';
+import 'package:azertexnolayn/test/user/testModelUser/test_user_model.dart';
 
 class TestJson {
-  static int?  loginPage({String? mail, String? password}) {
-    final String jsonPath = """
+  static int? loginPage({String? mail, String? password}) {
+    const String jsonPath = """
     [
     {
         "mail": "elgiz@gmail.com",

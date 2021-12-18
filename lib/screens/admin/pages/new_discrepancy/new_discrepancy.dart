@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:azertexnolayn/core/constants/constants_color.dart';
 import 'package:azertexnolayn/core/constants/constants_text.dart';
+import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_button.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_center_text.dart';
+import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_chip.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_radio_button.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../../../core/response/responsive_layout.dart';
 import 'package:flutter/cupertino.dart';
 import '../../global_companent/global_companent.dart';
@@ -30,8 +32,10 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
   final _formKey = GlobalKey<FormState>();
 
   NewDiscrepancy({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+   
     // print(formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]));
     return Scaffold(
       appBar: appBarSection(context),
@@ -46,7 +50,58 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       dateAndWho(),
+                      buildDivider(),
+                      Card(
+
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Wrap(
+                              children: [
+                                Column(
+                                  children: [
+                                    const Text(
+                                      'Kim: ',
+                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                     IconButton(
+                                  tooltip: AppConstantsText.enter,
+                                  onPressed: () {
+                                     controller.runFilter();
+                                    buidlAddPersonDialog(context);
+                                  },
+                                  icon: const Icon(Icons.add_circle_outline),
+                                )
+                                  ],
+                                ),
+                                GetBuilder<NewDiscrepancyController>(
+                                  builder: (controller) {
+                                    if (controller.userAddModelList.isEmpty) {
+                                      return const SizedBox();
+                                    } else {
+                                      return Wrap(
+                                        children: controller.userAddModelList
+                                            .map((e) => CustomerChip(
+                                                  title: e.name,
+                                                  onDeleted: () =>
+                                                      controller.deleteUser(e),
+                                                ))
+                                            .toList(),
+                                      );
+                                    }
+                                  },
+                                ),
+                                
+                               
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      buildDivider(),
                       buildDropdownButton(),
+                      buildDivider(),
                       CustomertextFormField(
                         title: 'Xəta başlığı',
                         inputType: TextInputType.multiline,
@@ -60,126 +115,197 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                         },
                         controller: controllerTitile,
                       ),
-                      const Divider(color: AppConstantsColor.compColorWhite),
+                      buildDivider(),
                       const CustomerCenterText(
                         title: AppConstantsText.descriptionOfFinding,
                       ),
 
                       buildDescriptionOfFinding(context),
-                      const Divider(color: AppConstantsColor.compColorWhite),
+                      buildDivider(),
                       //KÖK SƏBƏB ANALİZİ
                       const CustomerCenterText(
                         title: AppConstantsText.rootCauseAnalysis,
                       ),
                       buildRoot(),
-                      const Divider(color: AppConstantsColor.compColorWhite),
-                      Card(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              color: AppConstantsColor.purpleDark,
-                              child: const Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Text(
-                                  AppConstantsText.imagesDownload,
-                                  style: TextStyle(
-                                      color: AppConstantsColor.compColorWhite,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
-                            GetBuilder<NewDiscrepancyController>(
-                              builder: (controller) {
-                                if (controller.imageList.isEmpty) {
-                                  return Center(
-                                    child: TextButton(
-                                        onPressed: () {
-                                          controller.uploadImage();
-                                          /*
-                                          var picked = await FilePicker.platform
-                                              .pickFiles();
-                                          if (picked != null) {
-                                            print(picked.files.first.name);
-                                            print(picked.files.first.path);
-                                          }
-                                        
-                                        */
-                                        },
-                                        child: const Text(
-                                            AppConstantsText.imagesButtonText)),
-                                  );
-                                } else {
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                     SizedBox(
-                                       height: context.dynamicHeight(0.22),
-                                       width: double.infinity,
-                                       child: ListView.builder(
-                                         scrollDirection: Axis.horizontal,
-                                         itemBuilder: (context, index) {
-                                         return Padding(
-                                              padding: const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                children: [
-                                                  SizedBox(
-                                                    height: 100,
-                                                    width: 100,
-                                                    child: Image.file(
-                                                      File(controller.imageList[index].path),
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                  ),
-                                                  ElevatedButton(
-                                                    style: ButtonStyle(backgroundColor:MaterialStateProperty.all(Colors.red) ),
-                                                    onPressed: () {
-
-                                                      controller.deleteImage(index);
-                                                    },
-                                                    child: const SizedBox(
-                                                   
-                                                    width: 50,
-                                                      child: Center(
-                                                          child: Text('Sil')),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                       },itemCount: controller.imageList.length,),
-                                     ),
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.uploadImage();
-                                            /*
-                                          var picked = await FilePicker.platform
-                                              .pickFiles();
-                                          if (picked != null) {
-                                            print(picked.files.first.name);
-                                            print(picked.files.first.path);
-                                          }
-                                        
-                                        */
-                                          },
-                                          child: const Text(AppConstantsText
-                                              .imagesButtonText)),
-                                    ],
-                                  );
-                                }
-                              },
-                            )
-                          ],
-                        ),
-                      )
+                      buildDivider(),
+                      buildLoadingImages(context),
+                      buildSendAndCancellBUtton()
                     ],
                   ),
                 ),
               ),
             ),
+    );
+  }
+
+  Future<String?> buidlAddPersonDialog(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title:controller.results.isEmpty
+            ?const Text('') : const Text('Əlavə et'),
+        content: controller.results.isEmpty
+            ? const Text('Daxil edəcəyiniz istifadəçilər bitmişdir')
+            : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomerSearchTextField(
+                    onChanged: (value) {
+                      controller.runFilter(enteredKeyword: value);
+                    },
+                  ),
+                  Divider(),
+                  SizedBox(
+                    width: double.infinity,
+                    height: context.dynamicHeight(0.2),
+                    child: SingleChildScrollView(
+                      child: GetBuilder<NewDiscrepancyController>(builder: (controller) {
+                       return Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                        children: controller.results
+                            .map((e) => TextButton(
+                                onPressed: () {
+                                  controller.addUser(e);
+                                  Navigator.pop(context, 'Cancel');
+                                },
+                                child: Text(e.name)))
+                            .toList(),
+                      );
+                      },),
+                    ),
+                  )
+                ],
+              ),
+      ),
+    );
+    /*
+    Container(
+                  height: 200,
+                  width: context.dynamicWidth(0.09),
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: controller.userModelListTest.length,
+                    itemBuilder: (context, index) {
+                      return Text(controller.userModelListTest[index].name);
+                    },
+                  ),
+                )
+    */
+  }
+
+  Divider buildDivider() =>
+      const Divider(color: AppConstantsColor.compColorWhite);
+
+  Row buildSendAndCancellBUtton() {
+    return Row(
+      children: [
+        CustomerButton(
+          title: AppConstantsText.send,
+          color: Colors.green,
+          onPressed: () {},
+        ),
+        CustomerButton(
+          title: AppConstantsText.cancell,
+          color: Colors.red,
+          onPressed: () {},
+        ),
+      ],
+    );
+  }
+
+  Card buildLoadingImages(BuildContext context) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            color: AppConstantsColor.purpleDark,
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                AppConstantsText.imagesDownload,
+                style: TextStyle(
+                    color: AppConstantsColor.compColorWhite,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          GetBuilder<NewDiscrepancyController>(
+            builder: (controller) {
+              if (controller.imageList.isEmpty) {
+                return Center(
+                  child: TextButton(
+                      onPressed: () {
+                        controller.uploadImage();
+                        /*
+                                        var picked = await FilePicker.platform
+                                            .pickFiles();
+                                        if (picked != null) {
+                                          print(picked.files.first.name);
+                                          print(picked.files.first.path);
+                                        }
+                                      
+                                      */
+                      },
+                      child: const Text(AppConstantsText.imagesButtonText)),
+                );
+              } else {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: context.dynamicHeight(0.22),
+                      width: double.infinity,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 100,
+                                  width: 100,
+                                  child: Image.file(
+                                    File(controller.imageList[index].path),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.red)),
+                                  onPressed: () {
+                                    controller.deleteImage(index);
+                                  },
+                                  child: const SizedBox(
+                                    width: 50,
+                                    child: Center(child: Text('Sil')),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                        itemCount: controller.imageList.length,
+                      ),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          controller.uploadImage();
+                        },
+                        child: const Text(AppConstantsText.imagesButtonText)),
+                  ],
+                );
+              }
+            },
+          )
+        ],
+      ),
     );
   }
 

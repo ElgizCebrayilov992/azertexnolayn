@@ -2,15 +2,86 @@ import 'dart:io';
 
 import 'package:azertexnolayn/core/constants/constants_text.dart';
 import 'package:azertexnolayn/test/image_list/image_list.dart';
+import 'package:azertexnolayn/test/user/user_model/user_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
-import 'package:flutter/services.dart';
 
 class NewDiscrepancyController extends GetxController {
-  List<MyImage> imageList = [];
+  List<UserModel> userAddModelList = [];
+  List<UserModel> results = [];
+  List<UserModel> userModelListTest = [
+    UserModel('Elgiz Cebrayilov'),
+    UserModel('Elmir Qubadov'),
+    UserModel('Ulvi Nebiyev'),
+    UserModel('Semed Durum'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turan Seferov'),
+    UserModel('Flankes flankesov'),
+    UserModel('Semed Durum'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turan Seferov'),
+    UserModel('Flankes flankesov'),
+    UserModel('Semed Durum'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turan Seferov'),
+    UserModel('Flankes flankesov'),
+    UserModel('Semed Durum'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turxan Ibrahimov'),
+    UserModel('Turan Seferov'),
+    UserModel('Flankes flankesov'),
+  ];
 
+  void runFilter({String enteredKeyword = ''}) {
+    if (enteredKeyword.isEmpty) {
+      print('yoxdur');
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = userModelListTest;
+    } else {
+      print('var');
+      results = userModelListTest
+          .where((element) =>
+              element.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+      for (var item in results) {
+        print(item.name);
+      }
+    }
+    update();
+  }
+
+  void addUser(UserModel userModel) {
+    userAddModelList.add(userModel);
+    results.remove(userModel);
+     for (var item in userAddModelList) {
+        print(item.name);
+      }
+    update();
+  }
+  void deleteUser(UserModel userModel) {
+    userAddModelList.remove(userModel);
+    results.add(userModel);
+     for (var item in userAddModelList) {
+        print(item.name);
+      }
+    update();
+  }
+
+  // Add İmage
+  List<MyImage> imageList = [];
   uploadImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
@@ -19,24 +90,23 @@ class NewDiscrepancyController extends GetxController {
     );
 
     if (result != null) {
-       
       File file = File(result.files.single.path ?? "");
 
       imageList.add(MyImage(path: file.path));
-   
-    imageCache?.clear();
-     
+
+      imageCache?.clear();
     } else {
       // User canceled the picker
     }
     update();
   }
-  deleteImage(int index){
+
+  deleteImage(int index) {
     imageList.removeAt(index);
     update();
   }
-//Radio Group (TAPINTININ AÇIQLAMASI / DESCRIPTION OF FINDING)
 
+//Radio Group (TAPINTININ AÇIQLAMASI / DESCRIPTION OF FINDING)
   final List<String> findings = [
     'UYĞUNSUZLUQ',
     'POTENSİYAL UYĞ./ RİSK',
@@ -49,8 +119,8 @@ class NewDiscrepancyController extends GetxController {
     select = value;
     update();
   }
-  //Radio Group (Kok Sebeb Analizi)
 
+  //Radio Group (Kok Sebeb Analizi)
   final List<String> findingsRoot = [
     AppConstantsText.yes,
     AppConstantsText.no,

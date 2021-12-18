@@ -74,4 +74,8 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
   static const String required = 'Tələb olunur?';
   static const String imagesDownload = 'Rəsimləri yüklə';
   static const String imagesButtonText = 'Rəsimi Yüklə';
+  static const String send = 'Göndər';
+  static const String cancell ='Ləğv et';
+  static const String enter ='Əlavə et';
+  static const String delete ='Sil';
 }
