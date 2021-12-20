@@ -21,6 +21,7 @@ class AppConstantsText {
   static const String drawerAcceptAdminMessage =
       'Təsdiqlənən'; //admin teref burda saygac gedecek
   static const String drawerCancelMessage = 'Ləvğ'; // admin
+  static const String drawerMenu = 'Menu'; // admin
   static const String drawerAcceptWaitMessage = 'Təsdiq gözləyən'; // admin
 
   //Mesaj Widget
@@ -78,4 +79,5 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
   static const String cancell ='Ləğv et';
   static const String enter ='Əlavə et';
   static const String delete ='Sil';
+  static const String menu ='Menu';
 }

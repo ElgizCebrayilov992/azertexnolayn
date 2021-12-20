@@ -13,33 +13,33 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:kartal/kartal.dart';
 
-
 // ignore: must_be_immutable
 class DocumentWidget extends StatelessWidget {
-  TestMesaj _mesaj;
-  DocumentWidget(
+  final TestMesaj _mesaj;
+  const DocumentWidget(
     this._mesaj,
   );
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(()=>InsideDocumentPage()),
+      onTap: () => Get.to(() => InsideDocumentPage()),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
           child: Container(
             margin: const EdgeInsets.all(8),
-            color: AppConstantsColor.compColorWhite,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
               children: [
-                sendTime(),
-                const SizedBox(width: 10,),
+                sendTime(context),
+                const SizedBox(
+                  width: 10,
+                ),
                 centerInfo(context),
-                const Spacer(),
-                timerOrIcon(_mesaj.timerStatus ?? 0)
+                ResponsiveLayout.isPhone(context)
+                    ? const SizedBox()
+                    : timerOrIcon(_mesaj.timerStatus ?? 0)
               ],
             ),
           ),
@@ -49,33 +49,37 @@ class DocumentWidget extends StatelessWidget {
   }
 
   centerInfo(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        const SizedBox(
-          height: 5,
+    return Expanded(
+      child: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const SizedBox(
+              height: 5,
+            ),
+            infoMesajHeader(context),
+            infoMesajFrom(context),
+            const SizedBox(
+              height: 15,
+            ),
+            infoMesajTo(context),
+            infoMesajAccept(context)
+          ],
         ),
-        infoMesajHeader(context),
-        infoMesajFrom(context),
-        const SizedBox(
-          height: 15,
-        ),
-        infoMesajTo(context),
-       
-        infoMesajAccept(context)
-      ],
+      ),
     );
   }
 
   Container infoMesajAccept(BuildContext context) {
     return Container(
+     
       padding: context.horizontalPaddingLow,
       decoration: const BoxDecoration(
           border:
               Border(bottom: BorderSide(color: Colors.black54, width: 3.0))),
-      child: Row(
+      child: Wrap(
         children: [
           const Text(AppConstantsText.mesajAccept),
           Text(_mesaj.qebulEtdi ?? "Gözləyir..")
@@ -86,12 +90,12 @@ class DocumentWidget extends StatelessWidget {
 
   Container infoMesajTo(BuildContext context) {
     return Container(
+     
       padding: context.horizontalPaddingLow,
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.black54, width: 3.0)),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Wrap(
         children: [
           const Text(
             AppConstantsText.mesajTo,
@@ -99,27 +103,27 @@ class DocumentWidget extends StatelessWidget {
           SizedBox(
             width: context.dynamicWidth(0.009),
           ),
-          SizedBox(
-            width: ResponsiveLayout.isPhone(context)
-                ? context.dynamicWidth(0.35)
-                : ResponsiveLayout.isTablet(context)
-                    ? context.dynamicWidth(0.22)
-                    : ResponsiveLayout.isLargeTablet(context)?context.dynamicWidth(0.17):context.dynamicWidth(0.15),
-            child: ExpansionTile(
-              iconColor: Colors.red,
-              title: AutoSizeText(
-                _mesaj.kimler![0]?.ad ?? "Gozleyir",
-                
-                minFontSize: 15,
-                maxLines: 5,
-              ),
-              children: _mesaj.kimler!
-                  .map((e) =>
-                      Text(_mesaj.kimler![0]!.ad != e!.ad ? e.ad ?? "" : ''))
-                  .toList(),
-            ),
+          Wrap(
+            children: _mesaj.kimler!
+                .map(
+                  (e) => Chip(
+                    deleteButtonTooltipMessage: AppConstantsText.delete,
+                    deleteIcon: const Icon(Icons.close),
+                    deleteIconColor: AppConstantsColor.adminColorRed,
+                    label: Text(e?.ad ?? ""),
+                    backgroundColor: Colors.grey.shade200,
+                  ),
+                )
+                .toList(),
           ),
           /*
+Text(_mesaj.kimler![0]!.ad != e!.ad ? e.ad ?? "" : '')
+
+
+
+
+
+
           Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,11 +161,12 @@ class DocumentWidget extends StatelessWidget {
 
   Container infoMesajFrom(BuildContext context) {
     return Container(
+     
       padding: context.horizontalPaddingLow,
       decoration: const BoxDecoration(
-        border: const Border(bottom: const BorderSide(color: Colors.black54, width: 3.0)),
+        border: Border(bottom: BorderSide(color: Colors.black54, width: 3.0)),
       ),
-      child: Row(
+      child: Wrap(
         children: [
           const Text(AppConstantsText.mesajFrom),
           Text(
@@ -175,14 +180,15 @@ class DocumentWidget extends StatelessWidget {
   Container infoMesajHeader(BuildContext context) {
     return Container(
       padding: context.horizontalPaddingLow,
+    
       decoration: const BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Colors.black54, width: 3.0),
         ),
       ),
-      child: Row(
+      child: Wrap(
         children: [
-         const Text(
+          const Text(
             AppConstantsText.mesajHeader,
           ),
           Text(
@@ -194,31 +200,43 @@ class DocumentWidget extends StatelessWidget {
     );
   }
 
-  Column sendTime() {
+  Column sendTime(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'), [
-              yy,
-              '/',
-              mm,
-              '/',
-              d
-            ])),
-        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'), [
-              HH,
-              ':',
-              nn,
-              ':',
-              ss
-            ])),
+        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'),
+            [yy, '/', mm, '/', d])),
+        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'),
+            [HH, ':', nn, ':', ss])),
+        const Divider(
+          color: Colors.black,
+          height: 3,
+        ),
+        ResponsiveLayout.isPhone(context)
+            ? timerOrIcon(_mesaj.timerStatus ?? 0)
+            : const SizedBox()
       ],
     );
   }
 
   timerOrIcon(int timerStatus) {
     if (timerStatus == 0) {
-      return TimerCountdown(
+      return const Text('24:00:00');
+    } else if (timerStatus == 1) {
+      return const Icon(
+        Icons.alarm,
+        color: Colors.green,
+      );
+    } else {
+      return const Icon(
+        Icons.alarm,
+        color: Colors.red,
+      );
+    }
+  }
+  //TODO Bunu timerde qoyacaqsan
+  /*
+  TimerCountdown(
         enableDescriptions: false,
         spacerWidth: 0.5,
         format: CountDownTimerFormat.hoursMinutesSeconds,
@@ -232,19 +250,8 @@ class DocumentWidget extends StatelessWidget {
         onEnd: () {
           print("Timer finished");
         },
-      );
-    } else if (timerStatus == 1) {
-      return const Icon(
-        Icons.alarm,
-        color: Colors.green,
-      );
-    } else {
-      return const Icon(
-        Icons.alarm,
-        color: Colors.red,
-      );
-    }
-  }
+      )
+  */
 }
 /*
 

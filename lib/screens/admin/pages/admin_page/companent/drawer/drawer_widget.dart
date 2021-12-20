@@ -1,3 +1,4 @@
+import 'package:azertexnolayn/screens/admin/pages/menu_page/menu_screen.dart';
 
 import '../../../../../../core/constants/constants_color.dart';
 
@@ -9,7 +10,6 @@ import '../document_builder/document_builder_widget.dart';
 import 'drawer_widget_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class ButtonsInfo {
   String title;
@@ -28,27 +28,29 @@ class Task {
 
 List<ButtonsInfo> _buttonNames = [
   ButtonsInfo(
-      title: AppConstantsText.drawerAllMessage, icon: Icons.email), //butun sened
+      title: AppConstantsText.drawerAllMessage,
+      icon: Icons.email), //butun sened
   //oxunmayan
   ButtonsInfo(
       title: AppConstantsText.drawerWaitMessage,
       icon: Icons.hourglass_bottom), //gozluyen
   ButtonsInfo(
-      title: AppConstantsText.drawerAcceptUserMessage, icon: Icons.mark_email_read),
+      title: AppConstantsText.drawerAcceptUserMessage,
+      icon: Icons.mark_email_read),
   ButtonsInfo(
       title: AppConstantsText.drawerAcceptWaitMessage,
       icon: Icons.gavel_outlined), //tesdiqleyen
   ButtonsInfo(title: AppConstantsText.drawerReturnMessage, icon: Icons.reply),
-  ButtonsInfo(title: AppConstantsText.drawerAcceptAdminMessage, icon: Icons.check),
+  ButtonsInfo(
+      title: AppConstantsText.drawerAcceptAdminMessage, icon: Icons.check),
   ButtonsInfo(
       title: AppConstantsText.drawerCancelMessage,
       icon: Icons.speaker_notes_off), //legv
+  ButtonsInfo(title: AppConstantsText.drawerMenu, icon: Icons.settings), //legv
   //geri donus
 ];
 
-class DrawerPage extends GetView<DrawerWidgetController>{
-
-
+class DrawerPage extends GetView<DrawerWidgetController> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -60,18 +62,19 @@ class DrawerPage extends GetView<DrawerWidgetController>{
               ListTile(
                 title: const Text(
                   "Menu",
-                  style:  TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                   ),
                 ),
                 trailing: !ResponsiveLayout.isComputer(context)
                     ? !ResponsiveLayout.isLargeTablet(context)
-                    ? IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.close, color: Colors.white),
-                      ):null
+                        ? IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.close, color: Colors.white),
+                          )
+                        : null
                     : null,
               ),
               ...List.generate(
@@ -84,7 +87,8 @@ class DrawerPage extends GetView<DrawerWidgetController>{
                               borderRadius: BorderRadius.circular(20),
                               gradient: LinearGradient(
                                 colors: [
-                                  AppConstantsColor.adminColorRed.withOpacity(0.9),
+                                  AppConstantsColor.adminColorRed
+                                      .withOpacity(0.9),
                                   AppConstantsColor.adminColorOrange
                                       .withOpacity(0.9),
                                 ],
@@ -107,9 +111,8 @@ class DrawerPage extends GetView<DrawerWidgetController>{
                           ),
                         ),
                         onTap: () {
-                        
                           controller.setCurentIndex(index);
-                        
+//TODO
                           update(controller);
                         },
                         shape: RoundedRectangleBorder(
@@ -132,39 +135,11 @@ class DrawerPage extends GetView<DrawerWidgetController>{
   }
 
   void update(DrawerWidgetController dwc) {
-    DocumentController ctr=Get.find();
-    switch (dwc.curentIndex) {
-     
-      case 0:
-       ctr.editMesajList(0);
-        dwc.setCurentWidget(DocumentScreen());
-
-        break;
-      case 1:
-      ctr.editMesajList(1);
-        dwc.setCurentWidget(DocumentScreen());
-        break;
-        case 2:
-      ctr.editMesajList(2);
-        dwc.setCurentWidget(DocumentScreen());
-        break;
-        case 3:
-      ctr.editMesajList(3);
-        dwc.setCurentWidget(DocumentScreen());
-        break;
-        case 4:
-      ctr.editMesajList(4);
-        dwc.setCurentWidget(DocumentScreen());
-        break;
-        case 5:
-      ctr.editMesajList(5);
-        dwc.setCurentWidget(DocumentScreen());
-        break;
-        case 6:
-      ctr.editMesajList(6);
-        dwc.setCurentWidget(DocumentScreen());
-        break;
-      default:
+    DocumentController ctr = Get.find();
+    if (dwc.curentIndex == 7) {
+      Get.to(MenuScreen());
+    } else {
+      ctr.editMesajList(dwc.curentIndex);
     }
   }
 }
