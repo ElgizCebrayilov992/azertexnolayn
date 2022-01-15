@@ -1,6 +1,12 @@
 import 'package:azertexnolayn/core/constants/constants_text.dart';
+import 'package:azertexnolayn/screens/admin/pages/menu_page/companent/customer_menu_button.dart';
+import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/permisson/permission_page.dart';
+import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/profil/profil_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'pages/section/section_screen.dart';
+import 'pages/worker/worker_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -19,7 +25,10 @@ class MenuScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-           
+           CustomerMenuButton(child: ProfilScreen(), title: AppConstantsText.profil),
+           CustomerMenuButton(child: WorkerScreen(), title:  AppConstantsText.worker),
+           CustomerMenuButton(child: PermisssionPage(), title:  AppConstantsText.permission),
+           CustomerMenuButton(child: SectionScreen(), title:  AppConstantsText.section),
           ],
         ),
       ),

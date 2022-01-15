@@ -11,7 +11,7 @@ class CustomerMenuButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () => Get.to(child),
+        onTap: () => Get.to(()=>child),
         child:  SizedBox(
           width: double.infinity,
           child: Card(

@@ -19,14 +19,14 @@ class CustomerButton extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           style: ButtonStyle(
-            fixedSize: MaterialStateProperty.all(Size(0, 40)),
+            fixedSize: MaterialStateProperty.all(const Size(0, 40)),
             
             backgroundColor: MaterialStateProperty.all(
               color,
             ),
           ),
           onPressed: onPressed,
-          child: Text(title,style: TextStyle(fontWeight: FontWeight.bold),),
+          child: Text(title,style:const TextStyle(fontWeight: FontWeight.bold),),
         ),
       ),
     );

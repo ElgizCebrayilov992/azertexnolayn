@@ -80,4 +80,14 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
   static const String enter ='Əlavə et';
   static const String delete ='Sil';
   static const String menu ='Menu';
+  static const String profil ='Profil';
+  static const String worker ='İşçilər';
+  static const String permission ='İcazələr';
+  static const String section ='Bölmə';
+  static const String name ='Ad: ';
+  static const String surname ='Soyad: ';
+  static const String phone ='Telefon: ';
+  static const String mail ='Mail: ';
+  static const String password ='Şifrə: ';
+  static const String update ='Dəyişmək';
 }
