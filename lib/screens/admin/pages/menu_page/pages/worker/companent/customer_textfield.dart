@@ -12,16 +12,27 @@ class CustomerTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey.shade200,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title,style: const TextStyle(fontWeight: FontWeight.bold),),
-          TextField(
-            controller: controller,
-            decoration: InputDecoration(hintText: hintText),
-          ),
-        ],
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Colors.grey, width: 1),
+        borderRadius: BorderRadius.circular(2),
+      ),
+      // color: Colors.grey.shade200,
+      child: Container(
+        padding: EdgeInsets.only(left: 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextField(
+              autofocus: true,
+              controller: controller,
+              decoration: InputDecoration(hintText: hintText),
+            ),
+          ],
+        ),
       ),
     );
   }

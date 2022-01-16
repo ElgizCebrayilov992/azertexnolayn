@@ -5,6 +5,7 @@ import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/worker/compane
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kartal/kartal.dart';
 
 import 'permission_controller.dart';
 
@@ -22,74 +23,77 @@ class PermisssionPage extends GetView<PermisiionController> {
           onChanged: (value) {},
         ),
         const Divider(),
-        buildTable(),
+        buildTable(context),
       ],
     );
 
    
   }
 
-  Expanded buildTable() {
+  Expanded buildTable(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SingleChildScrollView(
-          child: DataTable(
-            columns: const [
-              DataColumn(
-                label: Text('Ad soyad'),
-              ),
-              DataColumn(
-                label: Text('Vəzifə'),
-              ),
-              DataColumn(
-                label: Text('username'),
-              ),
-              DataColumn(
-                label: Text('Password'),
-              ),
-              DataColumn(
-                label: Text('status'),
-              ),
-              DataColumn(
-                label: Text('Uygunsuzluq görmə'),
-              ),
-              DataColumn(
-                label: Text(' '),
-              ),
-            ],
-            rows: PermissionDaoList.list()
-                .map(
-                  (e) => DataRow(
-                    cells: [
-                      DataCell(Text(e.fullName)),
-                      DataCell(Text(e.position)),
-                      DataCell(Text(e.username)),
-                      DataCell(Text(e.password)),
-                      DataCell(Text(e.status)),
-                      DataCell(Text(e.vision)),
-                      DataCell(Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
+          child: SizedBox(
+                width: context.dynamicWidth(1),
+            child: DataTable(
+              columns: const [
+                DataColumn(
+                  label: Text('Ad soyad'),
+                ),
+                DataColumn(
+                  label: Text('Vəzifə'),
+                ),
+                DataColumn(
+                  label: Text('username'),
+                ),
+                DataColumn(
+                  label: Text('Password'),
+                ),
+                DataColumn(
+                  label: Text('status'),
+                ),
+                DataColumn(
+                  label: Text('Uygunsuzluq görmə'),
+                ),
+                DataColumn(
+                  label: Text(' '),
+                ),
+              ],
+              rows: PermissionDaoList.list()
+                  .map(
+                    (e) => DataRow(
+                      cells: [
+                        DataCell(Text(e.fullName)),
+                        DataCell(Text(e.position)),
+                        DataCell(Text(e.username)),
+                        DataCell(Text(e.password)),
+                        DataCell(Text(e.status)),
+                        DataCell(Text(e.vision)),
+                        DataCell(Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ),
-                          )
-                        ],
-                      )),
-                    ],
-                  ),
-                )
-                .toList(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Colors.green,
+                              ),
+                            )
+                          ],
+                        )),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ),
       ),

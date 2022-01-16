@@ -6,7 +6,7 @@ import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/worker/worker_
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:kartal/kartal.dart';
 class WorkerScreen extends GetView<WorkerController> {
   WorkerScreen({Key? key}) : super(key: key);
   final TextEditingController name = TextEditingController();
@@ -23,69 +23,72 @@ class WorkerScreen extends GetView<WorkerController> {
           onChanged: (value) {},
         ),
         const Divider(),
-        buildTable()
+        buildTable(context)
       ],
     );
  
   }
 
-  Expanded buildTable() {
+  Expanded buildTable(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: SingleChildScrollView(
-          child: DataTable(
-            columns: const [
-              DataColumn(
-                label: Text('Ad soyad'),
-              ),
-              DataColumn(
-                label: Text('Vəzifə'),
-              ),
-              DataColumn(
-                label: Text('Telefon'),
-              ),
-              DataColumn(
-                label: Text('Mail'),
-              ),
-              DataColumn(
-                label: Text('Struktur'),
-              ),
-              DataColumn(
-                label: Text(' '),
-              ),
-            ],
-            rows: WorkerList.getList(60)
-                .map(
-                  (e) => DataRow(
-                    cells: [
-                      DataCell(Text(e.name)),
-                      DataCell(Text(e.phone)),
-                      DataCell(Text(e.vezife)),
-                      DataCell(Text(e.mail)),
-                      DataCell(Text(e.struktur)),
-                      DataCell(Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.delete,
-                              color: Colors.red,
+          child: SizedBox(
+                width: context.dynamicWidth(1),
+            child: DataTable(
+              columns: const [
+                DataColumn(
+                  label: Text('Ad soyad'),
+                ),
+                DataColumn(
+                  label: Text('Vəzifə'),
+                ),
+                DataColumn(
+                  label: Text('Telefon'),
+                ),
+                DataColumn(
+                  label: Text('Mail'),
+                ),
+                DataColumn(
+                  label: Text('Struktur'),
+                ),
+                DataColumn(
+                  label: Text(' '),
+                ),
+              ],
+              rows: WorkerList.getList(60)
+                  .map(
+                    (e) => DataRow(
+                      cells: [
+                        DataCell(Text(e.name)),
+                        DataCell(Text(e.phone)),
+                        DataCell(Text(e.vezife)),
+                        DataCell(Text(e.mail)),
+                        DataCell(Text(e.struktur)),
+                        DataCell(Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.edit,
-                              color: Colors.green,
-                            ),
-                          )
-                        ],
-                      )),
-                    ],
-                  ),
-                )
-                .toList(),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.green,
+                              ),
+                            )
+                          ],
+                        )),
+                      ],
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ),
       ),

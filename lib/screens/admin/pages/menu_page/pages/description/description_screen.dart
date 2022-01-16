@@ -5,14 +5,14 @@ import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/cust
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-class SectionScreen extends StatelessWidget {
-  SectionScreen({Key? key}) : super(key: key);
+class DescriptionScreen extends StatelessWidget {
+  DescriptionScreen({Key? key}) : super(key: key);
   final TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return CustomerColumn(
       onPressed: () => _showMyDialog(context),
-      title: AppConstantsText.section,
+      title: AppConstantsText.standardClauseTitle,
       children: [
         CustomerSearchTextField(
           onChanged: (value) {},
@@ -74,19 +74,19 @@ class SectionScreen extends StatelessWidget {
   }
 
   Future<void> _showMyDialog(BuildContext context) async {
-    print('sss');
+    
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yeni bölmə əlavə et'),
+          title: const Text('Yeni açıqlama əlavə et'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 CustomerTextField(
                     title: 'Ad:',
-                    hintText: 'Məsələn: Keyfiyyətə Nəzarət',
+                    hintText: 'Məsələn: uyğunsuzluq',
                     controller: name),
               ],
             ),
@@ -128,20 +128,13 @@ class Section {
 class SectionList {
   static List<Section> list() {
     return [
-      Section(id: 1, title: 'Keyfiyyətə Nəzarət Keyfiyyətə Nəzarət'),
-      Section(id: 1, title: 'title'),
-      Section(
-          id: 1,
-          title:
-              'Keyfiyyətə NəzarətKeyfiyyətə NəzarətKeyfiyyətə NəzarətKeyfiyyətə Nəzarət'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
+
+      Section(id: 1, title: 'Uyğunsuzlq'),
+      Section(id: 1, title: 'Potensiyal uyğunsuzluq'),
+      Section(id: 1, title: 'Müşahidə'),
+      Section(id: 1, title: 'Çox əhəmiyyətli'),
+      Section(id: 1, title: 'Az əhəmiyyətli'),
+      
     ];
   }
 }

@@ -5,14 +5,17 @@ import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/cust
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
 
-class SectionScreen extends StatelessWidget {
-  SectionScreen({Key? key}) : super(key: key);
-  final TextEditingController name = TextEditingController();
+class CausesScreen extends StatelessWidget {
+  CausesScreen({Key? key}) : super(key: key);
+   TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return CustomerColumn(
-      onPressed: () => _showMyDialog(context),
-      title: AppConstantsText.section,
+      onPressed: () {
+        name = TextEditingController();
+        _showMyDialog(context,0);
+      },
+      title: AppConstantsText.causes,
       children: [
         CustomerSearchTextField(
           onChanged: (value) {},
@@ -52,7 +55,10 @@ class SectionScreen extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    name = TextEditingController(text: e.title);
+                                    _showMyDialog(context,1);
+                                  },
                                   icon: const Icon(
                                     Icons.edit,
                                     color: Colors.green,
@@ -73,33 +79,41 @@ class SectionScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _showMyDialog(BuildContext context) async {
-    print('sss');
+  Future<void> _showMyDialog(BuildContext context, int i) async {
+    
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yeni bölmə əlavə et'),
+          title: const Text('Yeni səbəb əlavə et'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 CustomerTextField(
                     title: 'Ad:',
-                    hintText: 'Məsələn: Keyfiyyətə Nəzarət',
+                    hintText: 'Məsələn: işçi xətası',
                     controller: name),
               ],
             ),
           ),
-          actions: buildDialogButtons(context),
+          actions: buildDialogButtons(context,i),
         );
       },
     );
   }
 
-  List<Widget> buildDialogButtons(BuildContext context) {
+  List<Widget> buildDialogButtons(BuildContext context, int i) {
     return <Widget>[
-      TextButton(
+     i==1 ?TextButton(
+        child: const Text(
+          'Dəyiş',
+          style: TextStyle(color: Colors.green),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ) : TextButton(
         child: const Text(
           'Əlavə et',
           style: TextStyle(color: Colors.green),
@@ -128,20 +142,10 @@ class Section {
 class SectionList {
   static List<Section> list() {
     return [
-      Section(id: 1, title: 'Keyfiyyətə Nəzarət Keyfiyyətə Nəzarət'),
-      Section(id: 1, title: 'title'),
-      Section(
-          id: 1,
-          title:
-              'Keyfiyyətə NəzarətKeyfiyyətə NəzarətKeyfiyyətə NəzarətKeyfiyyətə Nəzarət'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
+
+      Section(id: 1, title: 'Avadanlıq xətası'),
+      Section(id: 1, title: 'İşçi xətası'),
+      Section(id: 1, title: 'Digər'),
     ];
   }
 }
