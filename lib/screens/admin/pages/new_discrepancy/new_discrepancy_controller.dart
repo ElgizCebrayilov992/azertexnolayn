@@ -47,18 +47,16 @@ class NewDiscrepancyController extends GetxController {
 
   void runFilter({String enteredKeyword = ''}) {
     if (enteredKeyword.isEmpty) {
-      print('yoxdur');
+     
       // if the search field is empty or only contains white-space, we'll display all users
       results = userModelListTest;
     } else {
-      print('var');
+     
       results = userModelListTest
           .where((element) =>
               element.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
-      for (var item in results) {
-        print(item.name);
-      }
+     
     }
     update();
   }

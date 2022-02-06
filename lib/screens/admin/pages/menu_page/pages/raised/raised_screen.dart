@@ -3,84 +3,166 @@ import 'package:azertexnolayn/screens/admin/global_companent/customer_column/cus
 import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/worker/companent/customer_textfield.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kartal/kartal.dart';
 
-class RaisedScreen extends StatelessWidget {
+import 'raised_controller.dart';
+
+class RaisedScreen extends GetView<RaisedController> {
   RaisedScreen({Key? key}) : super(key: key);
-  final TextEditingController name = TextEditingController();
+  TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    controller.fetchAllRaiseds();
     return CustomerColumn(
-      onPressed: () => _showMyDialog(context),
+      onPressed: () =>
+          _showMyDialog(context, 'Yeni adiyyat əlavə et', 'Əlavə et', 1),
       title: AppConstantsText.raised,
       children: [
         CustomerSearchTextField(
-          onChanged: (value) {},
+          onChanged: (value) {
+            controller.raisedSearch(text: value);
+          },
         ),
         const Divider(),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+        GetBuilder<RaisedController>(builder: (controller) {
+          int a = 1;
+          //  print(controller.models.length);
+          if(controller.models.isEmpty){
+            return const Center(child: Text('Bazada məlumat yoxdur'),);
+          }else{
+            return Expanded(
             child: SingleChildScrollView(
-              child: SizedBox(
-                width: context.dynamicWidth(1),
-                child: DataTable(
-                  columns: const [
-                    DataColumn(
-                      label: Text('No'),
-                    ),
-                    DataColumn(
-                      label: Text('Ad'),
-                    ),
-                    DataColumn(
-                      label: Text(' '),
-                    ),
-                  ],
-                  rows: SectionList.list()
-                      .map(
-                        (e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.id.toString())),
-                            DataCell(Text(e.title)),
-                            DataCell(Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: context.dynamicWidth(1),
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(
+                        label: Text('No'),
+                      ),
+                      DataColumn(
+                        label: Text('Ad'),
+                      ),
+                      DataColumn(
+                        label: Text(' '),
+                      ),
+                    ],
+                    rows: controller.models
+                        .map(
+                          (e) => DataRow(
+                            cells: [
+                              DataCell(Text((a++).toString())),
+                              DataCell(Text(e.name!)),
+                              DataCell(Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      controller.raisedVisible('0', e.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.green,
-                                  ),
-                                )
-                              ],
-                            )),
-                          ],
-                        ),
-                      )
-                      .toList(),
+                                  IconButton(
+                                    onPressed: () {
+                                      name =
+                                          TextEditingController(text: e.name);
+                                      _showMyDialog(
+                                          context, 'Məlumatı dəyiş', 'Dəyiş', 2,
+                                          id: e.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                    ),
+                                  )
+                                ],
+                              )),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-        )
+          );
+          }
+        })
       ],
     );
   }
 
-  Future<void> _showMyDialog(BuildContext context) async {
-    
+/*
+
+Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: context.dynamicWidth(1),
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(
+                        label: Text('No'),
+                      ),
+                      DataColumn(
+                        label: Text('Ad'),
+                      ),
+                      DataColumn(
+                        label: Text(' '),
+                      ),
+                    ],
+                    rows: controller.models
+                        .map(
+                          (e) => DataRow(
+                            cells: [
+                              DataCell(Text(e.id.toString())),
+                              DataCell(Text(e.name!)),
+                              DataCell(Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                    ),
+                                  )
+                                ],
+                              )),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          )
+
+
+
+ */
+  Future<void> _showMyDialog(
+      BuildContext context, String title, buttonText, int count,
+      {String? id}) async {
+        print(id);
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yeni adiyyat əlavə et'),
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
@@ -91,25 +173,35 @@ class RaisedScreen extends StatelessWidget {
               ],
             ),
           ),
-          actions: buildDialogButtons(context),
+          actions: buildDialogButtons(context, buttonText, count,id: id),
         );
       },
     );
   }
 
-  List<Widget> buildDialogButtons(BuildContext context) {
+  List<Widget> buildDialogButtons(
+      BuildContext context, String buttonText, int count,
+      {String? id}) {
     return <Widget>[
       TextButton(
-        child: const Text(
-          'Əlavə et',
-          style: TextStyle(color: Colors.green),
+        child: Text(
+          buttonText,
+          style: const TextStyle(color: Colors.green),
         ),
         onPressed: () {
+          if (count == 1) {
+            controller.raisedAdd(name.text);
+          } else {
+            controller.raisedUpdate(name.text, id);
+          }
           Navigator.of(context).pop();
         },
       ),
       TextButton(
-        child: const Text('Ləğv et',style: TextStyle(color: Colors.red),),
+        child: const Text(
+          'Ləğv et',
+          style: TextStyle(color: Colors.red),
+        ),
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -128,12 +220,10 @@ class Section {
 class SectionList {
   static List<Section> list() {
     return [
-
       Section(id: 1, title: 'Daxili şöbə'),
       Section(id: 1, title: 'Subpodratçı'),
       Section(id: 1, title: 'Podratçı'),
       Section(id: 1, title: 'Tədarükçü'),
-      
     ];
   }
 }

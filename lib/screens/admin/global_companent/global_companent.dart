@@ -1,6 +1,5 @@
 import '../../../core/constants/constants_color.dart';
 
-import '../../../core/constants/constants_text.dart';
 import '../../../core/response/responsive_layout.dart';
 import '../pages/admin_page/companent/app_bar_widget.dart';
 import 'package:flutter/material.dart';

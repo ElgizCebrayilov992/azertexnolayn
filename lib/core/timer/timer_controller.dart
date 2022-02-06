@@ -52,10 +52,10 @@ class TimerController {
         } else {
           minute = (60 + stringTime.minute) - curentTime.minute;
           if (curentTime.hour <= (stringTime.hour - 1)) {
-            print('yoxxx1x');
+           
             hour = stringTime.hour - curentTime.hour;
           } else {
-            print('yoxxxxx');
+          
             hour = 22;
             //TODO timer statusun deyisecek
           }

@@ -36,10 +36,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^0.22.0
   get: ^4.3.8
+  dio: ^4.0.4
+  json_serializable: ^6.1.4
+  json_annotation: ^4.4.0
   kartal: ^2.1.0
   animate_do: ^2.0.0
-  json_serializable: ^6.0.1
-  json_annotation: ^4.3.0
   auto_size_text: ^3.0.0
   auto_size_text_pk: ^3.0.0
   flutter_timer_countdown: ^1.0.2
@@ -47,10 +48,16 @@ dependencies:
   checkbox_grouped: ^1.7.1
   image_picker: ^0.8.4+4
   file_picker: ^4.2.7
- 
+  excel: ^2.0.0-null-safety-3
+  path: ^1.8.0
+  path_provider: ^2.0.8
+  syncfusion_flutter_xlsio: ^19.4.43-beta
+  open_file: ^3.2.1
+  universal_html: ^2.0.8
 
 dev_dependencies:
   pedantic: ^1.11.1
+  build_runner: ^2.1.7
   flutter_test:
     sdk: flutter
 
@@ -76,6 +83,7 @@ flutter:
   assets:
     - assets/logo/
     - assets/image/
+    - assets/excel/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -11,7 +11,9 @@ TestMesaj _$TestMesajFromJson(Map<String, dynamic> json) => TestMesaj(
       basliq: json['basliq'] as String?,
       gonderen: json['gonderen'] as String?,
       kimler: (json['kimler'] as List<dynamic>?)
-          ?.map((e) => TestMesajKimler.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => e == null
+              ? null
+              : TestMesajKimler.fromJson(e as Map<String, dynamic>))
           .toList(),
       qebulEtdi: json['qebulEtdi'] as String?,
       tarix: json['tarix'] as String?,

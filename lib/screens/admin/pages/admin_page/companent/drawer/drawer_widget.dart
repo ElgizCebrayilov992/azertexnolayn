@@ -53,81 +53,83 @@ List<ButtonsInfo> _buttonNames = [
 class DrawerPage extends GetView<DrawerWidgetController> {
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      elevation: 0,
-      child: SingleChildScrollView(
-        child: GetBuilder<DrawerWidgetController>(
-          builder: (controller) => Column(
-            children: [
-              ListTile(
-                title: const Text(
-                  "Menu",
-                  style: TextStyle(
-                    color: Colors.white,
+    return SafeArea(
+      child: Drawer(
+        elevation: 0,
+        child: SingleChildScrollView(
+          child: GetBuilder<DrawerWidgetController>(
+            builder: (controller) => Column(
+              children: [
+                ListTile(
+                  title: const Text(
+                    "Menu",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                trailing: !ResponsiveLayout.isComputer(context)
-                    ? !ResponsiveLayout.isLargeTablet(context)
-                        ? IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: const Icon(Icons.close, color: Colors.white),
-                          )
-                        : null
-                    : null,
-              ),
-              ...List.generate(
-                _buttonNames.length,
-                (index) => Column(
-                  children: [
-                    Container(
-                      decoration: index == controller.curentIndex
-                          ? BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              gradient: LinearGradient(
-                                colors: [
-                                  AppConstantsColor.adminColorRed
-                                      .withOpacity(0.9),
-                                  AppConstantsColor.adminColorOrange
-                                      .withOpacity(0.9),
-                                ],
-                              ),
+                  trailing: !ResponsiveLayout.isComputer(context)
+                      ? !ResponsiveLayout.isLargeTablet(context)
+                          ? IconButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: const Icon(Icons.close, color: Colors.white),
                             )
-                          : null,
-                      child: ListTile(
-                        //TODO BURDA MESAJ SAYI OLACAQ
-                        title: Text(
-                          _buttonNames[index].title,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          : null
+                      : null,
+                ),
+                ...List.generate(
+                  _buttonNames.length,
+                  (index) => Column(
+                    children: [
+                      Container(
+                        decoration: index == controller.curentIndex
+                            ? BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppConstantsColor.adminColorRed
+                                        .withOpacity(0.9),
+                                    AppConstantsColor.adminColorOrange
+                                        .withOpacity(0.9),
+                                  ],
+                                ),
+                              )
+                            : null,
+                        child: ListTile(
+                          //TODO BURDA MESAJ SAYI OLACAQ
+                          title: Text(
+                            _buttonNames[index].title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        leading: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Icon(
-                            _buttonNames[index].icon,
-                            color: Colors.white,
+                          leading: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Icon(
+                              _buttonNames[index].icon,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                        onTap: () {
-                          controller.setCurentIndex(index);
-//TODO
-                          update(controller);
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          onTap: () {
+                            controller.setCurentIndex(index);
+    //TODO
+                            update(controller);
+                          },
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
                       ),
-                    ),
-                    const Divider(
-                      color: Colors.white,
-                      thickness: 0.1,
-                    ),
-                  ],
+                      const Divider(
+                        color: Colors.white,
+                        thickness: 0.1,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

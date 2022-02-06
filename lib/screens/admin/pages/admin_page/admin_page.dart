@@ -27,32 +27,34 @@ class AdminPage extends StatelessWidget {
                 ),
           preferredSize: const Size(double.infinity, 100),
         ),
-        body: GetBuilder<DrawerWidgetController>(
-          builder: (controller) {
-            if (ResponsiveLayout.isComputer(context) ||
-                ResponsiveLayout.isLargeTablet(context)) {
-                  print('Komp');
-              return Row(
-                children: [
-                  Expanded(
-                    child: DrawerPage(),
-                    flex: 1,
-                  ),
-                  Expanded(
-                      flex: ResponsiveLayout.isLargeTablet(context) ? 4 : 5,
-                      child: GetBuilder<DrawerWidgetController>(
-                        builder: (controller) => dwc.curentWidget,
-                      )),
-                ],
-              );
-            } else if (ResponsiveLayout.isTinyLimit(context)) {
-              print('Tiny');
-              return Container();
-            } else {
-              print('Phone');
-              return dwc.curentWidget;
-            }
-          },
+        body: SafeArea(
+          child: GetBuilder<DrawerWidgetController>(
+            builder: (controller) {
+              if (ResponsiveLayout.isComputer(context) ||
+                  ResponsiveLayout.isLargeTablet(context)) {
+                    print('Komp');
+                return Row(
+                  children: [
+                    Expanded(
+                      child: DrawerPage(),
+                      flex: 1,
+                    ),
+                    Expanded(
+                        flex: ResponsiveLayout.isLargeTablet(context) ? 4 : 5,
+                        child: GetBuilder<DrawerWidgetController>(
+                          builder: (controller) => dwc.curentWidget,
+                        )),
+                  ],
+                );
+              } else if (ResponsiveLayout.isTinyLimit(context)) {
+                print('Tiny');
+                return Container();
+              } else {
+                print('Phone');
+                return dwc.curentWidget;
+              }
+            },
+          ),
         ));
   }
 }
