@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
 class RaisedController extends GetxController {
-  final Dio dio = ProjectNetworkManager.instance.dio;
+  Dio dio = ProjectNetworkManager.instance.dio;
   List<RaisedModel> models = [];
   List<RaisedModel> SearchModels = [];
 
@@ -19,59 +19,78 @@ class RaisedController extends GetxController {
       for (var item in (data as List)) {
         RaisedModel model = RaisedModel.fromJson(item);
 
-        if (model.status == '1') {
+        if (model.status == '0') {
           SearchModels.add(model);
         }
       }
 
       // models=(data as List).map((e) => RaisedModel.fromJson(e)).toList();
-    } 
-    models=SearchModels;
+    }
+    models = SearchModels;
     update();
   }
- 
 
   raisedAdd(String name) async {
-    final uri = Uri(path: "${RaisedServicePath.ADD.rawValue}/$name");
-    final post = await dio.postUri(uri);
-    MesajModel model = MesajModel.fromJson(post.data);
+    try {
+      await dio.post(
+        RaisedServicePath.ADD.rawValue,
+        data: {"name": name, "status": "0"},
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+        ),
+      );
+    } catch (e, s) {
+      print("$e -> $s");
+    }
+
+    //MesajModel model = MesajModel.fromJson(post.data); 
     fetchAllRaiseds();
-   
   }
 
   raisedUpdate(String name, id) async {
-  
-    final uri = Uri(path: "${RaisedServicePath.UPDATE.rawValue}/$name/$id");
-    final post = await dio.putUri(uri);
-    MesajModel model = MesajModel.fromJson(post.data);
+   try {
+      await dio.post(
+        RaisedServicePath.UPDATE.rawValue,
+        data: {"id": id, "name": name},
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+        ),
+      );
+    } catch (e, s) {
+      print("$e -> $s");
+    }
+
     fetchAllRaiseds();
-    
   }
+
   raisedVisible(String status, id) async {
+    try {
+      await dio.post(
+        RaisedServicePath.VIS.rawValue,
+        data: {"id": id, "status": status},
+        options: Options(
+          contentType: Headers.formUrlEncodedContentType,
+        ),
+      );
+    } catch (e, s) {
+      print("$e -> $s");
+    }
+
     
-    final uri = Uri(path: "${RaisedServicePath.VIS.rawValue}/$id/$status");
-    final post = await dio.putUri(uri);
-    MesajModel model = MesajModel.fromJson(post.data);
     fetchAllRaiseds();
-    
   }
-  raisedSearch({String text=""}) async {
-  if (text.isEmpty) {
-     
+
+  raisedSearch({String text = ""}) async {
+    if (text.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
-      models=SearchModels;
+      models = SearchModels;
     } else {
-     
-      models= SearchModels
-          .where((element) =>
-              element.name!.toLowerCase().contains(text.toLowerCase())).toList();
-     
+      models = SearchModels.where((element) =>
+          element.name!.toLowerCase().contains(text.toLowerCase())).toList();
     }
     update();
   }
 }
-
-
 
 enum RaisedServicePath { RAISEDS, RAISED, ADD, UPDATE, VIS }
 
@@ -79,15 +98,15 @@ extension RaiSedServicePathExtension on RaisedServicePath {
   String get rawValue {
     switch (this) {
       case RaisedServicePath.RAISEDS:
-        return '/raiseds';
+        return '/raised/all';
       case RaisedServicePath.RAISED:
-        return '/raised';
+        return '/raised/raised';
       case RaisedServicePath.ADD:
-        return '/add';
+        return '/raised/save';
       case RaisedServicePath.UPDATE:
-        return '/update';
+        return '/raised/update';
       case RaisedServicePath.VIS:
-        return '/vis';
+        return '/raised/vis';
     }
   }
 }

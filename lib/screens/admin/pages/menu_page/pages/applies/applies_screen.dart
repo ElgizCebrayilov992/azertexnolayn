@@ -1,142 +1,156 @@
 import 'package:azertexnolayn/core/constants/constants_text.dart';
 import 'package:azertexnolayn/screens/admin/global_companent/customer_column/customer_column.dart';
+import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/applies/applies_controller.dart';
 import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/worker/companent/customer_textfield.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kartal/kartal.dart';
 
-class AppliesScreen extends StatelessWidget {
+class AppliesScreen  extends GetView<AppliesController> {
   AppliesScreen({Key? key}) : super(key: key);
-  final TextEditingController name = TextEditingController();
+  TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
+   
+    controller.fetchAllApplies();
     return CustomerColumn(
-      onPressed: () => _showMyDialog(context),
+      onPressed: () =>
+          _showMyDialog(context, 'Yeni tətbiq olunacaq əlavə et', 'Əlavə et', 1),
       title: AppConstantsText.applies,
       children: [
         CustomerSearchTextField(
-          onChanged: (value) {},
+          onChanged: (value) {
+            controller.appliesSearch(text: value);
+          },
         ),
         const Divider(),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+        GetBuilder<AppliesController>(builder: (controller) {
+          int a = 1;
+          //  print(controller.models.length);
+          if(controller.models.isEmpty){
+            return const Center(child: Text('Bazada məlumat yoxdur'),);
+          }else{
+            return Expanded(
             child: SingleChildScrollView(
-              child: SizedBox(
-                width: context.dynamicWidth(1),
-                child: DataTable(
-                  columns: const [
-                    DataColumn(
-                      label: Text('No'),
-                    ),
-                    DataColumn(
-                      label: Text('Ad'),
-                    ),
-                    DataColumn(
-                      label: Text(' '),
-                    ),
-                  ],
-                  rows: SectionList.list()
-                      .map(
-                        (e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.id.toString())),
-                            DataCell(Text(e.title)),
-                            DataCell(Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: context.dynamicWidth(1),
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(
+                        label: Text('No'),
+                      ),
+                      DataColumn(
+                        label: Text('Ad'),
+                      ),
+                      DataColumn(
+                        label: Text(' '),
+                      ),
+                    ],
+                    rows: controller.models
+                        .map(
+                          (e) => DataRow(
+                            cells: [
+                              DataCell(Text((a++).toString())),
+                              DataCell(Text(e.name!)),
+                              DataCell(Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      controller.raisedVisible('1', e.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.green,
-                                  ),
-                                )
-                              ],
-                            )),
-                          ],
-                        ),
-                      )
-                      .toList(),
+                                  IconButton(
+                                    onPressed: () {
+                                      name =
+                                          TextEditingController(text: e.name);
+                                      _showMyDialog(
+                                          context, 'Məlumatı dəyiş', 'Dəyiş', 2,
+                                          id: e.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                    ),
+                                  )
+                                ],
+                              )),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-        )
+          );
+          }
+        })
       ],
     );
   }
 
-  Future<void> _showMyDialog(BuildContext context) async {
-    
+
+  Future<void> _showMyDialog(
+      BuildContext context, String title, buttonText, int count,
+      {String? id}) async {
+        print("SS $id");
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yeni tətbiq əlavə et'),
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 CustomerTextField(
                     title: 'Ad:',
-                    hintText: 'Məsələn: Sətəm',
+                    hintText: 'Məsələn: Məhsul',
                     controller: name),
               ],
             ),
           ),
-          actions: buildDialogButtons(context),
+          actions: buildDialogButtons(context, buttonText, count,id: id),
         );
       },
     );
   }
 
-  List<Widget> buildDialogButtons(BuildContext context) {
+  List<Widget> buildDialogButtons(
+      BuildContext context, String buttonText, int count,
+      {String? id}) {
     return <Widget>[
       TextButton(
+        child: Text(
+          buttonText,
+          style: const TextStyle(color: Colors.green),
+        ),
+        onPressed: () {
+          if (count == 1) {
+            controller.appliesdAdd(name.text);
+          } else {
+            controller.appliesUpdate(name.text, id);
+          }
+          Navigator.of(context).pop();
+        },
+      ),
+      TextButton(
         child: const Text(
-          'Əlavə et',
-          style: TextStyle(color: Colors.green),
+          'Ləğv et',
+          style: TextStyle(color: Colors.red),
         ),
         onPressed: () {
           Navigator.of(context).pop();
         },
       ),
-      TextButton(
-        child: const Text('Ləğv et',style: TextStyle(color: Colors.red),),
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ),
     ];
   }
 }
 
-class Section {
-  final int id;
-  final String title;
-
-  Section({required this.id, required this.title});
-}
-
-class SectionList {
-  static List<Section> list() {
-    return [
-
-      Section(id: 1, title: 'Sistem'),
-      Section(id: 1, title: 'Məhsul'),
-      Section(id: 1, title: 'Uyğun olmayan prosedur/Təlimat'),
-      Section(id: 1, title: 'Proses'),
-      Section(id: 1, title: 'Kefiyyət'),
-      Section(id: 1, title: 'Yanlış test'),
-      Section(id: 1, title: 'Sətəm'),
-      
-    ];
-  }
-}

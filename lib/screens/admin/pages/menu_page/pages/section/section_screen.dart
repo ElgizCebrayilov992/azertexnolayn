@@ -1,147 +1,456 @@
 import 'package:azertexnolayn/core/constants/constants_text.dart';
+import 'package:azertexnolayn/core/model/section_up_and_under/section_up_and_under.dart';
 import 'package:azertexnolayn/screens/admin/global_companent/customer_column/customer_column.dart';
+import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/section/section_controller.dart';
 import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/worker/companent/customer_textfield.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kartal/kartal.dart';
 
-class SectionScreen extends StatelessWidget {
+class SectionScreen extends GetView<SectionController> {
+  TextEditingController sectionName = TextEditingController();
+  TextEditingController unSectionName = TextEditingController();
   SectionScreen({Key? key}) : super(key: key);
-  final TextEditingController name = TextEditingController();
+  int _index = 0;
   @override
   Widget build(BuildContext context) {
-    return CustomerColumn(
-      onPressed: () => _showMyDialog(context),
-      title: AppConstantsText.section,
-      children: [
-        CustomerSearchTextField(
-          onChanged: (value) {},
-        ),
-        const Divider(),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: context.dynamicWidth(1),
-                child: DataTable(
-                  columns: const [
-                    DataColumn(
-                      label: Text('No'),
-                    ),
-                    DataColumn(
-                      label: Text('Ad'),
-                    ),
-                    DataColumn(
-                      label: Text(' '),
-                    ),
-                  ],
-                  rows: SectionList.list()
-                      .map(
-                        (e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.id.toString())),
-                            DataCell(Text(e.title)),
-                            DataCell(Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.green,
-                                  ),
-                                )
-                              ],
-                            )),
-                          ],
-                        ),
-                      )
-                      .toList(),
-                ),
+    controller.fetchAllSection();
+    controller.fetchAllUnSection();
+    controller.fetchAllUnAndUpSection();
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            appBarButton(context),
+          ],
+          centerTitle: true,
+          title: const Text(AppConstantsText.section),
+          bottom: TabBar(
+            onTap: (value) {
+              _index = value;
+            },
+            tabs: const [
+              Tab(
+                text: AppConstantsText.upSection,
               ),
-            ),
+              Tab(
+                text: AppConstantsText.underSection,
+              ),
+              Tab(
+                text: AppConstantsText.combineSection,
+              ),
+            ],
           ),
-        )
-      ],
+        ),
+        body: Card(
+          child: TabBarView(
+            children: [
+              sectionView(context),
+              unSectionView(context),
+              unAndUpSectionView(context)
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Future<void> _showMyDialog(BuildContext context) async {
-    print('sss');
-    return showDialog<void>(
+  IconButton appBarButton(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        if (_index == 0) {
+          _showUpAndUnderDialog(
+              context, AppConstantsText.upSection, 'Əlavə et', 1, _index);
+        } else if (_index == 1) {
+          _showUpAndUnderDialog(
+              context, AppConstantsText.underSection, 'Əlavə et', 1, _index);
+        } else {
+          _showUpAndUnderDialog(
+              context, AppConstantsText.combineSection, 'Əlavə et', 1, _index);
+        }
+      },
+      icon: const Icon(Icons.add),
+    );
+  }
+
+  sectionView(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CustomerSearchTextField(
+            onChanged: (value) {
+              controller.sectionSearch(text: value);
+            },
+          ),
+          const Divider(),
+          GetBuilder<SectionController>(builder: (controller) {
+            int a = 1;
+            //  print(controller.models.length);
+            if (controller.loading == Loading.EMPTY) {
+              return const Center(
+                child: Text('Bazada məlumat yoxdur'),
+              );
+            } else if (controller.loading == Loading.DONE) {
+              return Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: context.dynamicWidth(1),
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(
+                            label: Text('No'),
+                          ),
+                          DataColumn(
+                            label: Text('Ad'),
+                          ),
+                          DataColumn(
+                            label: Text(' '),
+                          ),
+                        ],
+                        rows: controller.models
+                            .map(
+                              (e) => DataRow(
+                                cells: [
+                                  DataCell(Text((a++).toString())),
+                                  DataCell(Text(e.name!)),
+                                  DataCell(Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.sectionVisible('1', e.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          sectionName = TextEditingController(
+                                              text: e.name);
+                                          _showUpAndUnderDialog(context,
+                                              'Məlumatı dəyiş', 'Dəyiş', 2, 0,
+                                              id: e.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color: Colors.green,
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } else if (controller.loading == Loading.LOADING) {
+              return const Center(
+                child: const CircularProgressIndicator(),
+              );
+            } else {
+              return const Center(
+                child: const Text('Əlaqə qurulmadı'),
+              );
+            }
+          })
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showUpAndUnderDialog(
+      BuildContext context, String title, buttonText, int count, index,
+      {String? id,SectionUpAndUnder? model}) async {
+        print(index);
+    return index ==2? showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yeni bölmə əlavə et'),
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+               const Text("Salman"),
+              ],
+            ),
+          ),
+          actions:
+              buildDialogButtons(context, buttonText, count, index, id: id),
+        );
+      },
+    ):showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 CustomerTextField(
                     title: 'Ad:',
-                    hintText: 'Məsələn: Keyfiyyətə Nəzarət',
-                    controller: name),
+                    hintText: 'Məsələn: Məhsul',
+                    controller: _index == 0 ? sectionName : unSectionName),
               ],
             ),
           ),
-          actions: buildDialogButtons(context),
+          actions:
+              buildDialogButtons(context, buttonText, count, index, id: id),
         );
       },
     );
   }
 
-  List<Widget> buildDialogButtons(BuildContext context) {
+  List<Widget> buildDialogButtons(
+      BuildContext context, String buttonText, int count, index,
+      {String? id}) {
     return <Widget>[
       TextButton(
-        child: const Text(
-          'Əlavə et',
-          style: TextStyle(color: Colors.green),
+        child: Text(
+          buttonText,
+          style: const TextStyle(color: Colors.green),
         ),
         onPressed: () {
+          if (count == 1) {
+            if (index == 0) {
+              controller.sectionAdd(sectionName.text);
+            } else {
+              controller.unSectionAdd(unSectionName.text);
+            }
+            //
+          } else {
+            if (index == 0) {
+              controller.sectionUpdate(sectionName.text, id);
+            } else {
+              controller.unSectionUpdate(unSectionName.text, id);
+            }
+            //    controller.causesUpdate(name.text, id);
+          }
           Navigator.of(context).pop();
         },
       ),
       TextButton(
-        child: const Text('Ləğv et',style: TextStyle(color: Colors.red),),
+        child: const Text(
+          'Ləğv et',
+          style: TextStyle(color: Colors.red),
+        ),
         onPressed: () {
           Navigator.of(context).pop();
         },
       ),
     ];
   }
-}
 
-class Section {
-  final int id;
-  final String title;
+  unSectionView(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CustomerSearchTextField(
+            onChanged: (value) {
+              controller.unSectionSearch(text: value);
+            },
+          ),
+          const Divider(),
+          GetBuilder<SectionController>(builder: (controller) {
+            int a = 1;
+            //  print(controller.models.length);
+            if (controller.unLoading == Loading.EMPTY) {
+              return const Center(
+                child: Text('Bazada məlumat yoxdur'),
+              );
+            } else if (controller.unLoading == Loading.DONE) {
+              return Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: context.dynamicWidth(1),
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(
+                            label: Text('No'),
+                          ),
+                          DataColumn(
+                            label: Text('Ad'),
+                          ),
+                          DataColumn(
+                            label: Text(' '),
+                          ),
+                        ],
+                        rows: controller.unModels
+                            .map(
+                              (e) => DataRow(
+                                cells: [
+                                  DataCell(Text((a++).toString())),
+                                  DataCell(Text(e.name!)),
+                                  DataCell(Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.unSectionVisible(
+                                              '1', e.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          unSectionName = TextEditingController(
+                                              text: e.name);
 
-  Section({required this.id, required this.title});
-}
+                                          _showUpAndUnderDialog(context,
+                                              'Məlumatı dəyiş', 'Dəyiş', 2, 1,
+                                              id: e.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color: Colors.green,
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } else if (controller.loading == Loading.LOADING) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return const Center(
+                child: Text('Əlaqə qurulmadı'),
+              );
+            }
+          })
+        ],
+      ),
+    );
+  }
 
-class SectionList {
-  static List<Section> list() {
-    return [
-      Section(id: 1, title: 'Keyfiyyətə Nəzarət Keyfiyyətə Nəzarət'),
-      Section(id: 1, title: 'title'),
-      Section(
-          id: 1,
-          title:
-              'Keyfiyyətə NəzarətKeyfiyyətə NəzarətKeyfiyyətə NəzarətKeyfiyyətə Nəzarət'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-      Section(id: 1, title: 'title'),
-    ];
+  unAndUpSectionView(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CustomerSearchTextField(
+            onChanged: (value) {
+              controller.unSectionSearch(text: value);
+            },
+          ),
+          const Divider(),
+          GetBuilder<SectionController>(builder: (controller) {
+            int a = 1;
+            //  print(controller.models.length);
+            if (controller.upAndUnderLoading == Loading.EMPTY) {
+              return const Center(
+                child: Text('Bazada məlumat yoxdur'),
+              );
+            } else if (controller.upAndUnderLoading == Loading.DONE) {
+              return Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: SingleChildScrollView(
+                    child: SizedBox(
+                      width: context.dynamicWidth(1),
+                      child: DataTable(
+                        columns: const [
+                          DataColumn(
+                            label: Text('No'),
+                          ),
+                          DataColumn(
+                            label: Text('Üst bölmə'),
+                          ),
+                           DataColumn(
+                            label: Text('Alt bölmə'),
+                          ),
+                          DataColumn(
+                            label: Text(' '),
+                          ),
+                        ],
+                        rows: controller.unAndUpModels
+                            .map(
+                              (e) => DataRow(
+                                cells: [
+                                  DataCell(Text((a++).toString())),
+                                  DataCell(Text(e.section_name!)),
+                                  DataCell(Text(e.undersection_name!)),
+                                  DataCell(Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          controller.unAndUpSectionVisible(
+                                              '1', e.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                        
+
+                                          _showUpAndUnderDialog(context,
+                                              'Məlumatı dəyiş', 'Dəyiş', 2, 2,
+                                              id: e.id);
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color: Colors.green,
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                                ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } else if (controller.upAndUnderLoading == Loading.LOADING) {
+              return const Center(
+                child:  CircularProgressIndicator(),
+              );
+            } else {
+              return const Center(
+                child:  Text('Əlaqə qurulmadı'),
+              );
+            }
+          })
+        ],
+      ),
+    );
   }
 }

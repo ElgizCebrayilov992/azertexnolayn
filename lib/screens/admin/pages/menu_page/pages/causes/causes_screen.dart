@@ -3,127 +3,154 @@ import 'package:azertexnolayn/screens/admin/global_companent/customer_column/cus
 import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/worker/companent/customer_textfield.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kartal/kartal.dart';
 
-class CausesScreen extends StatelessWidget {
+import 'causes_controller.dart';
+
+class CausesScreen extends GetView<CausesController> {
   CausesScreen({Key? key}) : super(key: key);
-   TextEditingController name = TextEditingController();
+  TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
+   
+    controller.fetchAllCauses();
     return CustomerColumn(
-      onPressed: () {
-        name = TextEditingController();
-        _showMyDialog(context,0);
-      },
+      onPressed: () =>
+          _showMyDialog(context, 'Yeni tətbiq olunacaq əlavə et', 'Əlavə et', 1),
       title: AppConstantsText.causes,
       children: [
         CustomerSearchTextField(
-          onChanged: (value) {},
+          onChanged: (value) {
+            controller.causesSearch(text: value);
+          },
         ),
         const Divider(),
-        Expanded(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
+        GetBuilder<CausesController>(builder: (controller) {
+          int a = 1;
+          //  print(controller.models.length);
+          if(controller.loading==Loading.EMPTY){
+            return const Center(child: Text('Bazada məlumat yoxdur'),);
+          }else if(controller.loading==Loading.DONE){
+            return Expanded(
             child: SingleChildScrollView(
-              child: SizedBox(
-                width: context.dynamicWidth(1),
-                child: DataTable(
-                  columns: const [
-                    DataColumn(
-                      label: Text('No'),
-                    ),
-                    DataColumn(
-                      label: Text('Ad'),
-                    ),
-                    DataColumn(
-                      label: Text(' '),
-                    ),
-                  ],
-                  rows: SectionList.list()
-                      .map(
-                        (e) => DataRow(
-                          cells: [
-                            DataCell(Text(e.id.toString())),
-                            DataCell(Text(e.title)),
-                            DataCell(Row(
-                              children: [
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: context.dynamicWidth(1),
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(
+                        label: Text('No'),
+                      ),
+                      DataColumn(
+                        label: Text('Ad'),
+                      ),
+                      DataColumn(
+                        label: Text(' '),
+                      ),
+                    ],
+                    rows: controller.models
+                        .map(
+                          (e) => DataRow(
+                            cells: [
+                              DataCell(Text((a++).toString())),
+                              DataCell(Text(e.name!)),
+                              DataCell(Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      controller.causesVisible('1', e.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                   ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    name = TextEditingController(text: e.title);
-                                    _showMyDialog(context,1);
-                                  },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.green,
-                                  ),
-                                )
-                              ],
-                            )),
-                          ],
-                        ),
-                      )
-                      .toList(),
+                                  IconButton(
+                                    onPressed: () {
+                                      name =
+                                          TextEditingController(text: e.name);
+                                      _showMyDialog(
+                                          context, 'Məlumatı dəyiş', 'Dəyiş', 2,
+                                          id: e.id);
+                                    },
+                                    icon: const Icon(
+                                      Icons.edit,
+                                      color: Colors.green,
+                                    ),
+                                  )
+                                ],
+                              )),
+                            ],
+                          ),
+                        )
+                        .toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-        )
+          );
+          }else if(controller.loading==Loading.LOADING){
+            return Center(child: CircularProgressIndicator(),);
+          }else{
+            return Center(child: Text('Əlaqə qurulmadı'),);
+          }
+        })
       ],
     );
   }
 
-  Future<void> _showMyDialog(BuildContext context, int i) async {
-    
+
+  Future<void> _showMyDialog(
+      BuildContext context, String title, buttonText, int count,
+      {String? id}) async {
+        print("SS $id");
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Yeni səbəb əlavə et'),
+          title: Text(title),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 CustomerTextField(
                     title: 'Ad:',
-                    hintText: 'Məsələn: işçi xətası',
+                    hintText: 'Məsələn: Məhsul',
                     controller: name),
               ],
             ),
           ),
-          actions: buildDialogButtons(context,i),
+          actions: buildDialogButtons(context, buttonText, count,id: id),
         );
       },
     );
   }
 
-  List<Widget> buildDialogButtons(BuildContext context, int i) {
+  List<Widget> buildDialogButtons(
+      BuildContext context, String buttonText, int count,
+      {String? id}) {
     return <Widget>[
-     i==1 ?TextButton(
-        child: const Text(
-          'Dəyiş',
-          style: TextStyle(color: Colors.green),
+      TextButton(
+        child: Text(
+          buttonText,
+          style: const TextStyle(color: Colors.green),
         ),
         onPressed: () {
-          Navigator.of(context).pop();
-        },
-      ) : TextButton(
-        child: const Text(
-          'Əlavə et',
-          style: TextStyle(color: Colors.green),
-        ),
-        onPressed: () {
+          if (count == 1) {
+            controller.causesdAdd(name.text);
+          } else {
+            controller.causesUpdate(name.text, id);
+          }
           Navigator.of(context).pop();
         },
       ),
       TextButton(
-        child: const Text('Ləğv et',style: TextStyle(color: Colors.red),),
+        child: const Text(
+          'Ləğv et',
+          style: TextStyle(color: Colors.red),
+        ),
         onPressed: () {
           Navigator.of(context).pop();
         },
@@ -132,20 +159,3 @@ class CausesScreen extends StatelessWidget {
   }
 }
 
-class Section {
-  final int id;
-  final String title;
-
-  Section({required this.id, required this.title});
-}
-
-class SectionList {
-  static List<Section> list() {
-    return [
-
-      Section(id: 1, title: 'Avadanlıq xətası'),
-      Section(id: 1, title: 'İşçi xətası'),
-      Section(id: 1, title: 'Digər'),
-    ];
-  }
-}

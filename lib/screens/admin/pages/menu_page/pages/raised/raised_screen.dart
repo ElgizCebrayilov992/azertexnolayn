@@ -13,6 +13,7 @@ class RaisedScreen extends GetView<RaisedController> {
   TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
+   
     controller.fetchAllRaiseds();
     return CustomerColumn(
       onPressed: () =>
@@ -59,7 +60,7 @@ class RaisedScreen extends GetView<RaisedController> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      controller.raisedVisible('0', e.id);
+                                      controller.raisedVisible('1', e.id);
                                     },
                                     icon: const Icon(
                                       Icons.delete,
@@ -215,15 +216,4 @@ class Section {
   final String title;
 
   Section({required this.id, required this.title});
-}
-
-class SectionList {
-  static List<Section> list() {
-    return [
-      Section(id: 1, title: 'Daxili şöbə'),
-      Section(id: 1, title: 'Subpodratçı'),
-      Section(id: 1, title: 'Podratçı'),
-      Section(id: 1, title: 'Tədarükçü'),
-    ];
-  }
 }

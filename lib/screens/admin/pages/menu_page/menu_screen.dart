@@ -8,10 +8,8 @@ import 'package:flutter/material.dart';
 import 'pages/applies/applies_screen.dart';
 import 'pages/causes/causes_screen.dart';
 import 'pages/corrective/corrective_screen.dart';
-import 'pages/description/description_screen.dart';
 import 'pages/raised/raised_screen.dart';
 import 'pages/section/section_screen.dart';
-import 'pages/unnder_section/under_section_screen.dart';
 import 'pages/worker/worker_screen.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -35,10 +33,8 @@ class MenuScreen extends StatelessWidget {
            CustomerMenuButton(child: WorkerScreen(), title:  AppConstantsText.worker),
            CustomerMenuButton(child: PermisssionPage(), title:  AppConstantsText.permission),
            CustomerMenuButton(child: SectionScreen(), title:  AppConstantsText.section),
-           CustomerMenuButton(child: UnderSectionScreen(), title:  AppConstantsText.underSection),
            CustomerMenuButton(child: RaisedScreen(), title:  AppConstantsText.raised),
            CustomerMenuButton(child: AppliesScreen(), title:  AppConstantsText.applies),
-           CustomerMenuButton(child: DescriptionScreen(), title:  AppConstantsText.standardClauseTitle),
            CustomerMenuButton(child: CausesScreen(), title:  AppConstantsText.causes),
            CustomerMenuButton(child: CorrectiveScreen(), title:  AppConstantsText.corrective),
           ],

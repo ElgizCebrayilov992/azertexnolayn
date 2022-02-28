@@ -8,7 +8,7 @@ class ProjectNetworkManager {
      return _instance!;
   }
 
-  final String _baseUrl='http://192.168.1.105/azertexnolayn_server/restapi/api';
+  final String _baseUrl='http://localhost/aztex';
   late Dio dio;
 
   ProjectNetworkManager._init(){
