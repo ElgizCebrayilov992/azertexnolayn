@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:azertexnolayn/core/enum/loading_enum.dart';
 import 'package:azertexnolayn/core/model/section_up_and_under/section_up_and_under.dart';
 import 'package:azertexnolayn/core/model/undersection/undersection_model.dart';
 import 'package:azertexnolayn/core/network/project_network_manager.dart';
@@ -7,17 +8,18 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:azertexnolayn/core/model/section/section_model.dart';
 
-enum Loading { LOADING, DONE, FAILED, EMPTY }
 
 class SectionController extends GetxController {
   Dio dio = ProjectNetworkManager.instance.dio;
   //Section
-  late SectionModel model;
+  bool change = true;
+  SectionModel model = SectionModel();
+  UndersectionModel underModel = UndersectionModel();
   List<SectionModel> models = [];
   List<SectionModel> searchModels = [];
   //Undersection
   //UndersectionModel
-  late UndersectionModel underModel;
+
   List<UndersectionModel> unModels = [];
   List<UndersectionModel> unSearchModels = [];
 
@@ -29,54 +31,94 @@ class SectionController extends GetxController {
   var loading = Loading.LOADING;
   var unLoading = Loading.LOADING;
   var upAndUnderLoading = Loading.LOADING;
+  setChange(int a) {
+    print(a);
+    if (a == 2) {
+      change = false;
+    } else {
+      change = true;
+    }
+    update();
+  }
 
-  Future<void> fetchAllSection() async {
+  Future<List<SectionModel>> fetchAllSection() async {
+    print('fetchAllSection');
     final response = await dio.get(SectionServicePath.APPLIES.rawValue);
 
     if (response.statusCode == HttpStatus.ok) {
       final data = response.data;
       models = [];
-      searchModels = [];
+      change ?  searchModels.clear():null;
       for (var item in (data as List)) {
-        SectionModel model = SectionModel.fromJson(item);
+        SectionModel modele = SectionModel.fromJson(item);
 
-        if (model.status == '0') {
-          searchModels.add(model);
+        if (modele.status == '0') {
+          if (searchModels.isEmpty) {
+            searchModels.add(modele);
+          } else {
+            int a = 0;
+            for (var item in searchModels) {
+              if (item.id == modele.id) {
+                a = 1;
+              }
+            }
+            if (a == 0) {
+              searchModels.add(modele);
+            }
+          }
+        }
+      }
+      int a = 0;
+      for (var item in searchModels) {
+        if (models.isEmpty) {
+          models.add(item);
+        } else {
+          for (var model in models) {
+            if (model.id == item.id) {
+              a = 1;
+            }
+          }
+          if (a == 0) {
+            models.add(item);
+          }
         }
       }
 
       // models=(data as List).map((e) => RaisedModel.fromJson(e)).toList();
     }
-    if (searchModels.isNotEmpty) {
+    if (models.isNotEmpty) {
       loading = Loading.DONE;
-      models = searchModels;
-    } else if (searchModels.isEmpty) {
+    } else if (models.isEmpty) {
       loading = Loading.EMPTY;
     } else {
       loading = Loading.FAILED;
     }
 
     update();
+    return models;
   }
 
-  Future<void> searchSection(String id) async {
-    final response = await dio.post(
-      SectionServicePath.WHERE.rawValue,
-      data: {"id": id},
-      options: Options(
-        contentType: Headers.formUrlEncodedContentType,
-      ),
-    );
+  searchSection({String? sectionId}) async {
+    model = SectionModel();
 
-    if (response.statusCode == HttpStatus.ok) {
-      final data = response.data;
-      for (var item in (data as List)) {
-        model = SectionModel.fromJson(item);
+    for (var item in models) {
+      if (item.id == sectionId) {
+        model = item;
       }
-      // models=(data as List).map((e) => RaisedModel.fromJson(e)).toList();
     }
     if (model.id == null) {
-      model = searchModels[0];
+      model = models[0];
+    }
+  }
+
+  Future<void> searchUnSectionList({String? unSectionId}) async {
+    for (var item in unModels) {
+      if (item.id == unSectionId) {
+        underModel = item;
+      }
+    }
+    if (underModel.id == null) {
+      underModel = unModels[0];
     }
 
     update();
@@ -163,21 +205,48 @@ class SectionController extends GetxController {
     if (response.statusCode == HttpStatus.ok) {
       final data = response.data;
       unModels = [];
-      unSearchModels = [];
+      change ?  unSearchModels.clear():null;
+      //  unSearchModels = [];
       for (var item in (data as List)) {
-        UndersectionModel model = UndersectionModel.fromJson(item);
+        UndersectionModel modele = UndersectionModel.fromJson(item);
 
-        if (model.status == '0') {
-          unSearchModels.add(model);
+        if (modele.status == '0') {
+          if (unSearchModels.isEmpty) {
+            unSearchModels.add(modele);
+          } else {
+            int a = 0;
+            for (var item in unSearchModels) {
+              if (item.id == modele.id) {
+                a = 1;
+              }
+            }
+            if (a == 0) {
+              unSearchModels.add(modele);
+            }
+          }
         }
       }
 
       // models=(data as List).map((e) => RaisedModel.fromJson(e)).toList();
+      int a = 0;
+      for (var item in unSearchModels) {
+        if (models.isEmpty) {
+          unModels.add(item);
+        } else {
+          for (var model in models) {
+            if (model.id == item.id) {
+              a = 1;
+            }
+          }
+          if (a == 0) {
+            unModels.add(item);
+          }
+        }
+      }
     }
-    if (unSearchModels.isNotEmpty) {
+    if (unModels.isNotEmpty) {
       unLoading = Loading.DONE;
-      unModels = unSearchModels;
-    } else if (searchModels.isEmpty) {
+    } else if (unModels.isEmpty) {
       unLoading = Loading.EMPTY;
     } else {
       unLoading = Loading.FAILED;
@@ -185,34 +254,32 @@ class SectionController extends GetxController {
 
     update();
   }
-   Future<void> searchUnSection(String id) async {
-    final response = await dio.get(UnderSectionServicePath.WHERE.rawValue);
+
+  Future<void> searchUnSection(String id) async {
+    final response = await dio.post(
+      UnderSectionServicePath.WHERE.rawValue,
+      data: {"id": id},
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+      ),
+    );
 
     if (response.statusCode == HttpStatus.ok) {
       final data = response.data;
-      unModels = [];
-      unSearchModels = [];
       for (var item in (data as List)) {
-        UndersectionModel model = UndersectionModel.fromJson(item);
-
-        if (model.status == '0') {
-          unSearchModels.add(model);
-        }
+        underModel = UndersectionModel.fromJson(item);
       }
-
       // models=(data as List).map((e) => RaisedModel.fromJson(e)).toList();
     }
-    if (unSearchModels.isNotEmpty) {
-      unLoading = Loading.DONE;
-      unModels = unSearchModels;
-    } else if (searchModels.isEmpty) {
-      unLoading = Loading.EMPTY;
-    } else {
-      unLoading = Loading.FAILED;
+    if (underModel.id == null) {
+      underModel = unSearchModels[0];
     }
 
     update();
+
+    ;
   }
+
   unSectionAdd(String name) async {
     try {
       await dio.post(
@@ -306,8 +373,9 @@ class SectionController extends GetxController {
       // models=(data as List).map((e) => RaisedModel.fromJson(e)).toList();
     }
     if (unAndUpSearchModels.isNotEmpty) {
-      upAndUnderLoading = Loading.DONE;
+      
       unAndUpModels = unAndUpSearchModels;
+      upAndUnderLoading = Loading.DONE;
     } else if (unAndUpSearchModels.isEmpty) {
       upAndUnderLoading = Loading.EMPTY;
     } else {
@@ -376,16 +444,10 @@ class SectionController extends GetxController {
     fetchAllUnAndUpSection();
   }
 
-/*
-List<SectionUpAndUnder> unAndUpModels = [];
-  List<SectionUpAndUnder> unAndUpSearchModels = [];
-  
-  var upAndUnderLoading=Loading.LOADING;
-*/
   unAndUpSectionSearch({String text = ""}) async {
-    if (text.isEmpty) {
+    if (text == "") {
       // if the search field is empty or only contains white-space, we'll display all users
-      unAndUpModels = unAndUpSearchModels;
+      fetchAllUnAndUpSection();
     } else {
       unAndUpModels = unAndUpSearchModels
           .where((element) =>
@@ -414,9 +476,19 @@ List<SectionUpAndUnder> unAndUpModels = [];
     }
     update();
   }
+
+  void setSection(SectionModel newValue) {
+    model = newValue;
+    fetchAllSection();
+  }
+
+  void setUnSection(UndersectionModel newValue) {
+    underModel = newValue;
+    fetchAllUnSection();
+  }
 }
 
-enum SectionServicePath { APPLIES, ADD, UPDATE, VIS,WHERE }
+enum SectionServicePath { APPLIES, ADD, UPDATE, VIS, WHERE }
 
 extension SectionServicePathExtension on SectionServicePath {
   String get rawValue {
@@ -430,12 +502,12 @@ extension SectionServicePathExtension on SectionServicePath {
       case SectionServicePath.VIS:
         return '/section/vis';
       case SectionServicePath.WHERE:
-        return '/section/whereId';
+        return '/section/whereid';
     }
   }
 }
 
-enum UnderSectionServicePath { APPLIES, ADD, UPDATE, VIS ,WHERE}
+enum UnderSectionServicePath { APPLIES, ADD, UPDATE, VIS, WHERE }
 
 extension UnderSectionServicePathExtension on UnderSectionServicePath {
   String get rawValue {

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CustomerTextAndTextField extends StatelessWidget {
-  const CustomerTextAndTextField({Key? key,required this.controller,required this.title}) : super(key: key);
+
+  const CustomerTextAndTextField({
+    Key? key,
+    required this.controller,
+    required this.title, this.validator,
+  }) : super(key: key);
   final TextEditingController controller;
   final String title;
-
+  final FormFieldValidator<String>? validator;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,7 +23,8 @@ class CustomerTextAndTextField extends StatelessWidget {
                         style:const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Expanded(
-                        child: TextField(
+                        child: TextFormField(
+                          validator: validator,
                           controller: controller,
                           decoration: const InputDecoration(
                             hintText: 'Zəhmət olmasa adınızı yazın...',

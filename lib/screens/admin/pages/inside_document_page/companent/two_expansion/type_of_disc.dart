@@ -9,7 +9,7 @@ class TypeOfDiscovery extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
             child: Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: TwoStringWithRow(
                 mainAxisSize: MainAxisSize.max,
                   title: 'Tapıntının növü/Type of discovery',

@@ -1,4 +1,5 @@
 import 'package:azertexnolayn/core/constants/constants_text.dart';
+import 'package:azertexnolayn/core/enum/loading_enum.dart';
 import 'package:azertexnolayn/screens/admin/global_companent/customer_column/customer_column.dart';
 import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/worker/companent/customer_textfield.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_search_text_field.dart';

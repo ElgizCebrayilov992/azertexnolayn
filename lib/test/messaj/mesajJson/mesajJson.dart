@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import '../mesajModel/mesaj_model.dart';
+import 'package:azertexnolayn/test/messaj/mesajModel/mesaj_model.dart';
 
 class AllMesaj {
   static List<TestMesaj>? mesajList({int mesajStatus=0}) {
      List<TestMesaj> items=[];
-    print('AllMesaj');
-    final String jsonPath = """
+    const String jsonPath = """
    [
   {
     "id":1,
@@ -371,13 +370,10 @@ for (var item in items) {
   }
 
   static List<TestMesaj>? _howList({int? mesajStatus, required List<TestMesaj> items}) {
-    print('girildi $mesajStatus mesaj ');
     List<TestMesaj> list=[];
     list.clear();
     for (var item in items) {
-      print('2MesajStatusuna bax: ${item.mesajStatus}   gelen int $mesajStatus');
       if (mesajStatus==item.mesajStatus) {
-        print('girildi $mesajStatus mesaj status ${item.mesajStatus}');
         list.add(item);
         
       }

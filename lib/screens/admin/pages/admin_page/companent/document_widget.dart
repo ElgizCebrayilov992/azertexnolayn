@@ -1,4 +1,6 @@
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/new_discrepancy_controller.dart';
+import 'package:flutter/cupertino.dart';
 import '../../../../../core/constants/constants_color.dart';
 import 'package:date_format/date_format.dart';
 import '../../../../../core/constants/constants_text.dart';
@@ -12,34 +14,61 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:kartal/kartal.dart';
+import 'package:azertexnolayn/core/model/inconsistency/inconsistency_model.dart';
 
 // ignore: must_be_immutable
 class DocumentWidget extends StatelessWidget {
-  final TestMesaj _mesaj;
-  const DocumentWidget(
-    this._mesaj,
-  );
+  NewDiscrepancyController controller=Get.find<NewDiscrepancyController>();
+  final InconsistencyModel model;
+   DocumentWidget(
+    this.model, {Key? key}
+  ) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => Get.to(() => InsideDocumentPage()),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          child: Container(
-            margin: const EdgeInsets.all(8),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        child: Container(
+          margin: const EdgeInsets.all(8),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                sendTime(context),
-                const SizedBox(
-                  width: 10,
+                boldAndSimpleText(title: 'Başlıq: ', info: model.title!),
+                boldAndSimpleText(
+                    title: 'Göndərən: ', info: model.create_user_name!),
+                boldAndSimpleText(title: 'Kimlər: ', info: model.whoms!),
+                boldAndSimpleText(
+                    title: 'Qəbul eden: ', info: model.accept_raised_name!),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        const Text('Göndərilmə vaxtı: ',  style:  TextStyle(fontWeight: FontWeight.bold),),
+                        sendTime(context)
+                      ],
+                    ),
+                  ),
                 ),
-                centerInfo(context),
-                ResponsiveLayout.isPhone(context)
-                    ? const SizedBox()
-                    : timerOrIcon(_mesaj.timerStatus ?? 0)
+                boldAndSimpleText(
+                    title: 'Göndərilən bölmə: ', info: model.section_name!),
+                boldAndSimpleText(
+                    title: 'Göndərilən alt bölmə: ',
+                    info: model.undersection_name!),
+                    Card(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(children: [const Text('Status: ',  style:  TextStyle(fontWeight: FontWeight.bold)),timerOrIcon(model.counter!)],),
+                    )),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.to(()=>InsideDocumentPage(model));
+                    },
+                    child: const Text('Bax'),
+                  ),
+                ),
               ],
             ),
           ),
@@ -48,181 +77,71 @@ class DocumentWidget extends StatelessWidget {
     );
   }
 
-  centerInfo(BuildContext context) {
-    return Expanded(
-      child: Container(
-        child: Column(
+  boldAndSimpleText({required String title, required String info}) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 5,
+            Flexible(
+              child: Text(
+                title,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
-            infoMesajHeader(context),
-            infoMesajFrom(context),
-            const SizedBox(
-              height: 15,
+            Flexible(
+              child: Text(
+                info,
+              ),
             ),
-            infoMesajTo(context),
-            infoMesajAccept(context)
           ],
         ),
       ),
     );
   }
 
-  Container infoMesajAccept(BuildContext context) {
-    return Container(
-     
-      padding: context.horizontalPaddingLow,
-      decoration: const BoxDecoration(
-          border:
-              Border(bottom: BorderSide(color: Colors.black54, width: 3.0))),
-      child: Wrap(
-        children: [
-          const Text(AppConstantsText.mesajAccept),
-          Text(_mesaj.qebulEtdi ?? "Gözləyir..")
-        ],
-      ),
-    );
-  }
-
-  Container infoMesajTo(BuildContext context) {
-    return Container(
-     
-      padding: context.horizontalPaddingLow,
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.black54, width: 3.0)),
-      ),
-      child: Wrap(
-        children: [
-          const Text(
-            AppConstantsText.mesajTo,
-          ),
-          SizedBox(
-            width: context.dynamicWidth(0.009),
-          ),
-          Wrap(
-            children: _mesaj.kimler!
-                .map(
-                  (e) => Chip(
-                    deleteButtonTooltipMessage: AppConstantsText.delete,
-                    deleteIcon: const Icon(Icons.close),
-                    deleteIconColor: AppConstantsColor.adminColorRed,
-                    label: Text(e?.ad ?? ""),
-                    backgroundColor: Colors.grey.shade200,
-                  ),
-                )
-                .toList(),
-          ),
-          /*
-Text(_mesaj.kimler![0]!.ad != e!.ad ? e.ad ?? "" : '')
 
 
-
-
-
-
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(_mesaj.kimler![0]?.ad ?? "Gozleyir"),
-              IconButton(
-                  onPressed: () {
-                    iController.updateIsCurent();
-                  },
-                  icon: Icon(
-                    Icons.info,
-                    color: Colors.green,
-                  )),
-              GetBuilder<InfoCardController>(
-                builder: (controller) => controller.isCurent
-                    ? Card(
-                        color: AppConstants.compColorBlue.withOpacity(0.5),
-                        child: Column(
-                          children: _mesaj.kimler!
-                              .map((e) => Text(_mesaj.kimler![0]!.ad != e!.ad
-                                  ? e.ad ?? ""
-                                  : ''))
-                              .toList(),
-                        ),
-                      )
-                    : Text(''),
-              )
-            ],
-          )
-          */
-        ],
-      ),
-    );
-  }
-
-  Container infoMesajFrom(BuildContext context) {
-    return Container(
-     
-      padding: context.horizontalPaddingLow,
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.black54, width: 3.0)),
-      ),
-      child: Wrap(
-        children: [
-          const Text(AppConstantsText.mesajFrom),
-          Text(
-            _mesaj.gonderen ?? "",
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container infoMesajHeader(BuildContext context) {
-    return Container(
-      padding: context.horizontalPaddingLow,
-    
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.black54, width: 3.0),
-        ),
-      ),
-      child: Wrap(
-        children: [
-          const Text(
-            AppConstantsText.mesajHeader,
-          ),
-          Text(
-            _mesaj.basliq ?? "",
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
 
   Column sendTime(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'),
-            [yy, '/', mm, '/', d])),
-        Text(formatDate(DateTime.parse(_mesaj.tarix ?? '2021-12-12'),
+        Text(formatDate(DateTime.parse(model.create_date ?? '12.12.2022'),
+            [d, '/', mm, '/', yy])),
+        Text(formatDate(DateTime.parse(model.create_date ?? '2021-12-12'),
             [HH, ':', nn, ':', ss])),
         const Divider(
           color: Colors.black,
           height: 3,
         ),
         ResponsiveLayout.isPhone(context)
-            ? timerOrIcon(_mesaj.timerStatus ?? 0)
+            ? timerOrIcon(model.counter ?? ' 0')
             : const SizedBox()
       ],
     );
   }
 
-  timerOrIcon(int timerStatus) {
-    if (timerStatus == 0) {
-      return const Text('24:00:00');
-    } else if (timerStatus == 1) {
+  timerOrIcon(String timerStatus) {
+    if (timerStatus == '1') {
+      return TimerCountdown(
+        enableDescriptions: false,
+        spacerWidth: 0.5,
+        format: CountDownTimerFormat.hoursMinutesSeconds,
+        endTime: DateTime.now().add(
+          Duration(
+            hours: TimerController.getTime(model.counter_end_date ?? "",model).hour,
+            minutes: TimerController.getTime(model.counter_end_date ?? "",model).minute,
+            seconds: TimerController.getTime(model.counter_end_date ?? "",model).second,
+          ),
+        ),
+        onEnd: () {
+         controller.counterUpdate(model,'3');
+        },
+      );
+    } else if (timerStatus == '2') {
       return const Icon(
         Icons.alarm,
         color: Colors.green,
@@ -234,34 +153,4 @@ Text(_mesaj.kimler![0]!.ad != e!.ad ? e.ad ?? "" : '')
       );
     }
   }
-  //TODO Bunu timerde qoyacaqsan
-  /*
-  TimerCountdown(
-        enableDescriptions: false,
-        spacerWidth: 0.5,
-        format: CountDownTimerFormat.hoursMinutesSeconds,
-        endTime: DateTime.now().add(
-          Duration(
-            hours: TimerController.getTime(_mesaj.timer ?? "").hour,
-            minutes: TimerController.getTime(_mesaj.timer ?? "").minute,
-            seconds: TimerController.getTime(_mesaj.timer ?? "").second,
-          ),
-        ),
-        onEnd: () {
-          print("Timer finished");
-        },
-      )
-  */
 }
-/*
-
-Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: _mesaj.kimler!
-                                  .map((e) => Text(
-                                        ' ${e?.ad ?? ""}',
-                                      ))
-                                  .toList(),
-                            )
-*/

@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:azertexnolayn/core/enum/loading_enum.dart';
 import 'package:azertexnolayn/core/model/causes/causes_model.dart';
 import 'package:azertexnolayn/core/network/project_network_manager.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 
-enum Loading { LOADING, DONE, FAILED, EMPTY }
 
 class CausesController extends GetxController {
   Dio dio = ProjectNetworkManager.instance.dio;

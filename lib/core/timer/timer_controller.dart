@@ -1,7 +1,13 @@
+import 'package:azertexnolayn/core/model/inconsistency/inconsistency_model.dart';
+import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/new_discrepancy_controller.dart';
+import 'package:get/get.dart';
+
 class TimerController {
-  
- static DateTime getTime(String time) {
+  static NewDiscrepancyController controller = Get.find<NewDiscrepancyController>();
+  static DateTime getTime(String time, InconsistencyModel model) {
+   
     DateTime stringTime = DateTime.parse(time);
+   
     DateTime curentTime = DateTime.now();
     int year = curentTime.year;
     int month = curentTime.month;
@@ -52,12 +58,10 @@ class TimerController {
         } else {
           minute = (60 + stringTime.minute) - curentTime.minute;
           if (curentTime.hour <= (stringTime.hour - 1)) {
-           
             hour = stringTime.hour - curentTime.hour;
           } else {
-          
             hour = 22;
-            //TODO timer statusun deyisecek
+            controller.counterUpdate(model, '3');
           }
         }
       } else {
@@ -68,7 +72,7 @@ class TimerController {
             hour = stringTime.hour - curentTime.hour;
           } else {
             hour = 22;
-            //TODO timer statusun deyisecek
+            controller.counterUpdate(model, '3');
           }
         } else {
           minute = (60 + stringTime.minute) - curentTime.minute;
@@ -76,10 +80,12 @@ class TimerController {
             hour = stringTime.hour - curentTime.hour;
           } else {
             hour = 22;
-            //TODO timer statusun deyisecek
+            controller.counterUpdate(model, '3');
           }
         }
       }
+    }else{
+       controller.counterUpdate(model, '3');
     }
 
     return DateTime(year, month, day, hour, minute, second);

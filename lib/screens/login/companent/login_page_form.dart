@@ -98,13 +98,13 @@ class LoginPageForm extends StatelessWidget {
             SizedBox(
               height: sizedBoxHeight!,
             ),
-            Container(
+            SizedBox(
               //color: Colors.red,
               height: containerHeight!,
               width: containerWidth!,
               child: ElevatedButton(
                 onPressed: () {
-                  LoginScreenController().loginScreenController(
+                  LoginScreenController().loginScreenController(context,
                       controllerMail: controllerMail,
                       controllerPass: controllerPass,
                       formKey: formKey);
@@ -132,6 +132,5 @@ class LoginPageForm extends StatelessWidget {
         ));
   }
 
-  void salam(GlobalKey<FormState> formKey, TextEditingController controllerMail,
-      TextEditingController controllerPass) {}
+  
 }

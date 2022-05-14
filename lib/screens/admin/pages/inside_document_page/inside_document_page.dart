@@ -1,4 +1,7 @@
 
+import 'package:azertexnolayn/core/model/inconsistency/inconsistency_model.dart';
+import 'package:azertexnolayn/screens/admin/pages/inside_document_page/companent/two_string_with_row.dart';
+
 import '../../../../core/constants/constants_color.dart';
 
 import '../../../../core/constants/constants_text.dart';
@@ -26,6 +29,10 @@ import 'companent/two_expansion/customer_image.dart';
 import 'companent/two_string_with_row_and_expanded.dart';
 
 class InsideDocumentPage extends GetView<InsideDocumentPageController> {
+  
+final InconsistencyModel model;
+
+  const InsideDocumentPage(this.model);
   @override
   Widget build(BuildContext context) {
     int a = 2;
@@ -108,22 +115,22 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
   Container threeExpansionTileForComputer() {
     return Container(
       color: AppConstantsColor.compColorWhite,
-      child: const ExpansionTile(
-        title: Text('KÖK SƏBƏB ANALİZİ / ROOT CAUSE ANALYSIS (RCA)'),
+      child:  ExpansionTile(
+        title: const Text('KÖK SƏBƏB ANALİZİ / ROOT CAUSE ANALYSIS (RCA)'),
         children: [
           TwoStringWithRowAndExpanded(
-              title: 'Tələb olunur? \nRequired?', info: 'yes'),
+              title: 'Tələb olunur? \nRequired?', info: model.root! =='0'?'Hə':'Yox'),
           TwoStringWithRowAndExpanded(
               title: 'Səbəblər/Causes',
-              info: 'AVADANLIQ XƏTASI / EQUIPMENT FAILURE'),
-          Divider(),
+              info: model.causes_name!),
+          const Divider(),
           TwoStringWithRowAndExpanded(
-              title: 'digər / other:', info: AppConstantsText.example2),
-          Divider(),
+              title: 'digər / other:', info: model.causes_desc),
+          const Divider(),
           TwoStringWithRowAndExpanded(
               title:
                   'Kök səbəb analiz komanda üzvləri\nRoot Cause Analyse Team members:',
-              info: AppConstantsText.exampleAdamlar),
+              info: model.root_team),
         ],
       ),
     );
@@ -138,14 +145,23 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TypeOfDiscovery(),
+              Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: TwoStringWithRow(
+                mainAxisSize: MainAxisSize.max,
+                  title: 'Tapıntının növü/Type of discovery',
+                  info: model.finding_name!),
+            ),
+          ),
               const Divider(),
-              const TwoStringWithRowAndExpanded(
+               TwoStringWithRowAndExpanded(
                   title: 'Əlavə açıqlama/Additional disclosure',
-                  info: AppConstantsText.example),
+                  info: model.finding_desc!),
               const Divider(),
-              const TwoStringWithRowAndExpanded(
+               TwoStringWithRowAndExpanded(
                 title: 'Standart və Maddə № \n Standard & Clause#',
+                info: model.clause!,
               ),
               Container(
                 padding: const EdgeInsets.all(9),
@@ -193,13 +209,13 @@ class InsideDocumentPage extends GetView<InsideDocumentPageController> {
           divider(),
           Row(
             children: [
-              const HeaderTimeAndName(
-                bolme: "Ilk Goz",
-                name: 'Elgiz',
-                time: '21.05.2021',
+               HeaderTimeAndName(
+                bolme: '${model.section_name} / ${model.undersection_name!}',
+                name: model.create_user_name!,
+                time: model.create_date!,
               ),
-              const HeaderWhom(raised: 'Daxili sobe'),
-              const Applies(applies: "SİSTEM / SYSTEM")
+               HeaderWhom(raised: model.raised_name!,name: model.accept_raised_name!,),
+               Applies(applies:model.applies_name!)
             ],
           )
         ],

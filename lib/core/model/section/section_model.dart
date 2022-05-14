@@ -23,4 +23,10 @@ class SectionModel {
   Map<String, dynamic> toJson() {
    return _$SectionModelToJson(this);
   }
+  @override
+  String toString() {
+    return name??"";
+  }
+  
+  
 }

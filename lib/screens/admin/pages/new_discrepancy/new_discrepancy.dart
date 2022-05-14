@@ -3,6 +3,12 @@ import 'dart:io';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:azertexnolayn/core/constants/constants_color.dart';
 import 'package:azertexnolayn/core/constants/constants_text.dart';
+import 'package:azertexnolayn/core/model/applies/applies_model.dart';
+import 'package:azertexnolayn/core/model/finding/finding_model.dart';
+import 'package:azertexnolayn/core/model/raised/raised_model.dart';
+import 'package:azertexnolayn/core/model/undersection/undersection_model.dart';
+import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/position/position_screen.dart';
+import 'package:azertexnolayn/screens/admin/pages/menu_page/pages/user/user_controller.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_button.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_center_text.dart';
 import 'package:azertexnolayn/screens/admin/pages/new_discrepancy/companent/customer_chip.dart';
@@ -22,23 +28,27 @@ import 'package:kartal/kartal.dart';
 import 'companent/custom_text_form_field.dart';
 import 'companent/customer_card.dart';
 import 'new_discrepancy_controller.dart';
+import 'package:azertexnolayn/core/model/section/section_model.dart';
 
 // ignore: must_be_immutable
 class NewDiscrepancy extends GetView<NewDiscrepancyController> {
   TextEditingController controllerTitile = TextEditingController();
   TextEditingController controllerStandart = TextEditingController();
-  // ignore: unused_field
-  final TextEditingController _textEditingController2 = TextEditingController();
+  TextEditingController controllerDescription = TextEditingController();
+  UserController userController = Get.find<UserController>();
+  NewDiscrepancyController newController = Get.find<NewDiscrepancyController>()
+    ..getUser();
   final _formKey = GlobalKey<FormState>();
+  late String createDate;
+  late String root='1';
 
   NewDiscrepancy({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-   
+    createDate = getDate();
     // print(formatDate(DateTime.now(), [yyyy, '-', mm, '-', dd]));
     return Scaffold(
-      appBar: appBarSection(context),
       body: ResponsiveLayout.isTinyLimit(context)
           ? Container()
           : SingleChildScrollView(
@@ -51,71 +61,10 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                     children: [
                       dateAndWho(),
                       buildDivider(),
-                      Card(
-
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Wrap(
-                              children: [
-                                Column(
-                                  children: [
-                                    const Text(
-                                      'Kim: ',
-                                      style: TextStyle(fontWeight: FontWeight.bold),
-                                    ),
-                                     IconButton(
-                                  tooltip: AppConstantsText.enter,
-                                  onPressed: () {
-                                     controller.runFilter();
-                                    buidlAddPersonDialog(context);
-                                  },
-                                  icon: const Icon(Icons.add_circle_outline),
-                                )
-                                  ],
-                                ),
-                                GetBuilder<NewDiscrepancyController>(
-                                  builder: (controller) {
-                                    if (controller.userAddModelList.isEmpty) {
-                                      return const SizedBox();
-                                    } else {
-                                      return Wrap(
-                                        children: controller.userAddModelList
-                                            .map((e) => CustomerChip(
-                                                  title: e.name,
-                                                  onDeleted: () =>
-                                                      controller.deleteUser(e),
-                                                ))
-                                            .toList(),
-                                      );
-                                    }
-                                  },
-                                ),
-                                
-                               
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      buildDivider(),
                       buildDropdownButton(),
+
                       buildDivider(),
-                      CustomertextFormField(
-                        title: 'Xəta başlığı',
-                        inputType: TextInputType.multiline,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (value) {
-                          if (value!.length <= 3) {
-                            return "Ən az 3 hərf olmalıdır";
-                          } else {
-                            return null;
-                          }
-                        },
-                        controller: controllerTitile,
-                      ),
-                      buildDivider(),
+
                       const CustomerCenterText(
                         title: AppConstantsText.descriptionOfFinding,
                       ),
@@ -142,12 +91,13 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title:controller.results.isEmpty
-            ?const Text('') : const Text('Əlavə et'),
+        title: controller.results.isEmpty
+            ? const Text('')
+            : const Text('Əlavə et'),
         content: controller.results.isEmpty
             ? const Text('Daxil edəcəyiniz istifadəçilər bitmişdir')
             : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CustomerSearchTextField(
@@ -155,24 +105,26 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                       controller.runFilter(enteredKeyword: value);
                     },
                   ),
-                  Divider(),
+                  const Divider(),
                   SizedBox(
                     width: double.infinity,
                     height: context.dynamicHeight(0.2),
                     child: SingleChildScrollView(
-                      child: GetBuilder<NewDiscrepancyController>(builder: (controller) {
-                       return Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: controller.results
-                            .map((e) => TextButton(
-                                onPressed: () {
-                                  controller.addUser(e);
-                                  Navigator.pop(context, 'Cancel');
-                                },
-                                child: Text(e.name)))
-                            .toList(),
-                      );
-                      },),
+                      child: GetBuilder<NewDiscrepancyController>(
+                        builder: (controller) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: controller.results
+                                .map((e) => TextButton(
+                                    onPressed: () {
+                                      controller.addUser(e);
+                                      Navigator.pop(context, 'Cancel');
+                                    },
+                                    child: Text(e.name!)))
+                                .toList(),
+                          );
+                        },
+                      ),
                     ),
                   )
                 ],
@@ -203,12 +155,33 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
         CustomerButton(
           title: AppConstantsText.send,
           color: Colors.green,
-          onPressed: () {},
+          onPressed: () async {
+        
+        
+            await newController.createWriter(
+             
+                create_date: getDate(),
+                section_id: newController.sectionModel!.id!,
+                under_section_id: newController.underModel!.id!,
+                create_user_id: userController.model.id!,
+                finding_id: newController.findingModel!.id!,
+                finding_desc: controllerDescription.text,
+                clause: controllerStandart.text.isEmpty?"gözləyir":controllerStandart.text,
+                root: root,
+                counter: '1',
+                counter_end_date: getCounterDate(),
+                situation: '1',
+                status: '0',);
+             
+              Get.back();
+          },
         ),
         CustomerButton(
           title: AppConstantsText.cancell,
           color: Colors.red,
-          onPressed: () {},
+          onPressed: () {
+            Get.back();
+          },
         ),
       ],
     );
@@ -336,16 +309,20 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                   width: 120,
                   index: 0,
                   grouoValue: controller.selectRoot,
-                  onChanged: (value) =>
-                      controller.onClickRadioButtonRoot(value),
+                  onChanged: (value) {
+                    root = '0';
+                    controller.onClickRadioButtonRoot(value);
+                  },
                   value: controller.findingsRoot[0],
                 ),
                 CustomerRadioButton1(
                   width: 120,
                   index: 0,
                   grouoValue: controller.selectRoot,
-                  onChanged: (value) =>
-                      controller.onClickRadioButtonRoot(value),
+                  onChanged: (value) {
+                    root = '1';
+                    controller.onClickRadioButtonRoot(value);
+                  },
                   value: controller.findingsRoot[1],
                 ),
               ],
@@ -370,50 +347,27 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
               children: [
                 GetBuilder<NewDiscrepancyController>(
                   builder: (controller) => Wrap(
-                    children: [
-                      CustomerRadioButton1(
-                        width: 250,
-                        index: 0,
-                        grouoValue: controller.select,
-                        onChanged: (value) =>
-                            controller.onClickRadioButtonFinding(value),
-                        value: controller.findings[0],
-                      ),
-                      CustomerRadioButton1(
-                        width: 250,
-                        index: 0,
-                        grouoValue: controller.select,
-                        onChanged: (value) =>
-                            controller.onClickRadioButtonFinding(value),
-                        value: controller.findings[1],
-                      ),
-                      CustomerRadioButton1(
-                        width: 250,
-                        index: 0,
-                        grouoValue: controller.select,
-                        onChanged: (value) =>
-                            controller.onClickRadioButtonFinding(value),
-                        value: controller.findings[2],
-                      ),
-                      CustomerRadioButton1(
-                        width: 250,
-                        index: 0,
-                        grouoValue: controller.select,
-                        onChanged: (value) =>
-                            controller.onClickRadioButtonFinding(value),
-                        value: controller.findings[3],
-                      ),
-                      CustomerRadioButton1(
-                        width: 250,
-                        index: 0,
-                        grouoValue: controller.select,
-                        onChanged: (value) =>
-                            controller.onClickRadioButtonFinding(value),
-                        value: controller.findings[4],
-                      ),
-                    ],
+                    children: controller.findingList
+                        .map(
+                          (e) => SizedBox(
+                            width: 250,
+                            child: RadioListTile<FindingModel>(
+                              dense: true,
+                              activeColor: Colors.green,
+                              value: e,
+                              groupValue: controller.findingModel,
+                              title: Text(e.name!),
+                              onChanged: (value) =>
+                                  controller.setFinding(value),
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
+                /*
+
+                */
                 CustomertextFormField(
                     title: AppConstantsText.standardClauseTitle,
                     inputType: TextInputType.multiline,
@@ -425,18 +379,12 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
                         return null;
                       }
                     },
-                    controller: controllerStandart),
+                    controller: controllerDescription),
                 CustomertextFormField(
                     title: AppConstantsText.standardClause,
                     inputType: TextInputType.multiline,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (value) {
-                      if (value!.length <= 3) {
-                        return "Ən az 3 hərf olmalıdır";
-                      } else {
-                        return null;
-                      }
-                    },
+                    validator: (value) {},
                     controller: controllerStandart),
               ],
             ),
@@ -458,55 +406,21 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Adiyyatı',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                GetBuilder<NewDiscrepancyController>(
-                  builder: (controller) => DropdownButton(
-                      menuMaxHeight: 120.0,
-                      isDense: true,
-                      hint: const Text('Adiyyatı'),
-                      dropdownColor: Colors.white,
-                      onChanged: (value) => controller.setRaised(value),
-                      value: controller.selectRaised,
-                      items: controller.listRaised
-                          .map(
-                            (e) => DropdownMenuItem(
-                              child: AutoSizeText(
-                                e,
-                                minFontSize: 8,
-                              ),
-                              value: e,
-                            ),
-                          )
-                          .toList()),
-                ),
-              ],
-            ),
-          ),
-        ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
                   'Bölmə',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 GetBuilder<NewDiscrepancyController>(
-                  builder: (controller) => DropdownButton(
-                      menuMaxHeight: 120.0,
+                  builder: (controller) => DropdownButton<SectionModel>(
+                      //  menuMaxHeight: 120.0,
                       isDense: true,
                       dropdownColor: Colors.white,
                       onChanged: (value) => controller.setSection(value),
-                      value: controller.selectSection,
-                      items: controller.listSection
+                      value: controller.sectionModel,
+                      items: controller.sectionList
                           .map(
-                            (e) => DropdownMenuItem(
+                            (e) => DropdownMenuItem<SectionModel>(
                               child: AutoSizeText(
-                                e,
+                                e.name ?? "",
                                 minFontSize: 10,
                               ),
                               value: e,
@@ -518,39 +432,48 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
             ),
           ),
         ),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Sahə',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+        GetBuilder<NewDiscrepancyController>(
+          builder: (controller) {
+            if (newController.underModel?.name == null) {
+              return const SizedBox();
+            } else {
+              return Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Sahə',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      DropdownButton<UndersectionModel>(
+                          isDense: true,
+                          //   menuMaxHeight: 120.0,
+                          dropdownColor: Colors.white,
+                          onChanged: (value) =>
+                              controller.setUnderSection(value),
+                          value: controller.underModel,
+                          items: controller.underList
+                              .map(
+                                (e) => DropdownMenuItem<UndersectionModel>(
+                                  child: AutoSizeText(
+                                    e.name ?? "",
+                                    minFontSize: 10,
+                                  ),
+                                  value: e,
+                                ),
+                              )
+                              .toList()),
+                    ],
+                  ),
                 ),
-                GetBuilder<NewDiscrepancyController>(
-                  builder: (controller) => DropdownButton(
-                      isDense: true,
-                      menuMaxHeight: 120.0,
-                      dropdownColor: Colors.white,
-                      onChanged: (value) => controller.setArea(value),
-                      value: controller.selectArea,
-                      items: controller.listArea
-                          .map(
-                            (e) => DropdownMenuItem(
-                              child: AutoSizeText(
-                                e,
-                                minFontSize: 10,
-                              ),
-                              value: e,
-                            ),
-                          )
-                          .toList()),
-                )
-              ],
-            ),
-          ),
-        )
+              );
+            }
+          },
+        ),
+
+        //
       ],
     );
   }
@@ -558,56 +481,46 @@ class NewDiscrepancy extends GetView<NewDiscrepancyController> {
   Widget dateAndWho() {
     return Wrap(
       children: [
+        CustomerCard(title: 'Tarix/Date', info: getDate()),
         CustomerCard(
-            title: 'Tarix/Date',
-            info: formatDate(
-              DateTime.now(),
-              [dd, '.', mm, '.', yyyy],
-            )),
-        const CustomerCard(
-            title: 'Aşkralayan/Initiator', info: 'Elgiz Cebrayilov'),
+          title: 'Aşkralayan/Initiator',
+          info: userController.model.name,
+        ),
       ],
+    );
+  }
+
+  String getDate() {
+    return  DateTime.now().toString();
+    
+    /*
+     formatDate(
+      
+     ,
+      [mm,':',hh,' ',dd, '.', mm, '.', yyyy],
+    );
+    */
+  }
+
+  String getCounterDate() {
+    int day = DateTime.now().day + 1;
+    int month = DateTime.now().month;
+    int year = DateTime.now().year;
+    int hour=DateTime.now().hour;
+    int minute=DateTime.now().minute;
+    int sec=DateTime.now().second;
+    
+    return formatDate(
+      DateTime(year, month, day,hour,minute,sec),
+      [ yyyy,'-',mm,'-',dd,' ',HH,':',mm,":",ss],
     );
   }
 }
 /*
+
+  
  /*
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Tətbiq olunacaq / Applies to:',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          GetBuilder<NewDiscrepancyController>(
-                            builder: (controller) => DropdownButton(
-                                alignment: Alignment.topLeft,
-                                isDense: true,
-                                borderRadius: BorderRadius.circular(20),
-                                hint: Text('Adiyyatı/Applies to'),
-                                dropdownColor: Colors.white,
-                                onChanged: (value) =>
-                                    controller.setApplies(value),
-                                value: controller.selectApplies,
-                                items: controller.listApplies
-                                    .map(
-                                      (e) => DropdownMenuItem(
-                                        child: AutoSizeText(
-                                          e,
-                                          minFontSize: 10,
-                                        ),
-                                        value: e,
-                                      ),
-                                    )
-                                    .toList()),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                 
                   */
                  
 

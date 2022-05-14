@@ -88,8 +88,11 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
   static const String underSection ='Alt bölmə';
   static const String combineSection ='Birləşdir';
   static const String raised ='Adiyyat';
+  static const String position ='Vəzifə';
+  static const String user ='İstifadəçilər';
   static const String applies ='Tətbiq olunacaq';
   static const String causes ='Səbəb';
+  static const String other ='Digər';
   static const String finding ='Tapıntı';
   static const String corrective ='Tədbir';
   static const String name ='Ad: ';

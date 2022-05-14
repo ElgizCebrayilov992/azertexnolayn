@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomerCard extends StatelessWidget {
-  final String? title, info;
+  final String? title;final String? info;
   const CustomerCard({Key? key, required this.title, required this.info})
       : super(key: key);
 

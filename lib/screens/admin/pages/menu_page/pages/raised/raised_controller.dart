@@ -14,8 +14,10 @@ class RaisedController extends GetxController {
   Future<void> fetchAllRaiseds() async {
     models.clear();
     final response = await dio.get(RaisedServicePath.RAISEDS.rawValue);
+    print('BBBBBBBBBBB $response');
     if (response.statusCode == HttpStatus.ok) {
       final data = response.data;
+      print('CCCCCCCC $data');
       for (var item in (data as List)) {
         RaisedModel model = RaisedModel.fromJson(item);
 
@@ -37,6 +39,7 @@ class RaisedController extends GetxController {
         data: {"name": name, "status": "0"},
         options: Options(
           contentType: Headers.formUrlEncodedContentType,
+          
         ),
       );
     } catch (e, s) {
